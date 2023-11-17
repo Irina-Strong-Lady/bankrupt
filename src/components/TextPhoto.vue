@@ -3,6 +3,10 @@ const props = defineProps({
     imgUrl: {
         type: String,
         required: true
+    },
+    serviceList: {
+      type: Object,
+      required: true
     }
 })
 </script>
@@ -10,7 +14,7 @@ const props = defineProps({
 <template>
   <section>
     <div class="footer__section-layout">
-      <div :style="`background-image: url(${imgUrl})`" class="wrapper__photo">
+      <div :style="`background-image: url(${imgUrl}${serviceList[1].image})`" class="wrapper__photo">
         <div class="wrapper__text">
           <p class="text__photo">
             Закажите платную консультацию юриста по банкротству по телефону

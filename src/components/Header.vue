@@ -25,6 +25,11 @@ const burgerActive = () => {
   menuLinks.forEach(item => item.addEventListener('click', burgerOn));
 }
 
+const firstItemHoverRemove = () => {
+const firstItem = document.querySelectorAll('.header__item');
+firstItem.forEach(item => item.addEventListener('click', item.classList.remove('header__item-onload')));
+}
+
 const burgerOpen = ref(false);
 
 function burgerOn() {
@@ -45,7 +50,7 @@ const menuItems = ['Главная', 'Цены', 'Услуги', 'Контакт
         </div>
         <nav class="header__nav" :class="burgerOpen ? 'header__nav-active' : ''">
           <ul class="header__list">
-            <li v-for="(item, index) in menuItems" :key="index" class="header__item">
+            <li v-for="(item, index) in menuItems" :key="index" class="header__item header__item-onload" @click.capture="firstItemHoverRemove">
               <a href="#!" class="header__link">{{ item }}</a>
             </li>
           </ul>
@@ -176,8 +181,6 @@ img
   color: $white
   margin-right: 55px
   list-style-type: none
-  &:first-child
-    color: $accent
   &:last-child
     margin-right: 0
   @media screen and (max-width: 767px)
@@ -186,6 +189,9 @@ img
     margin-bottom: 30px
     &:last-child
       margin-bottom: 0
+.header__item-onload
+  &:first-child
+    color: $accent
 .header__link
   font-size: 22px
   font-style: normal
@@ -194,7 +200,7 @@ img
   text-decoration: none  
   &:hover, &:focus, &:active
     color: $accent
-    cursor: default
+    cursor: default  
   @media screen and (max-width: 1200px)
     font-size: 20px
   @media screen and (max-width: 767px)

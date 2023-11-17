@@ -84,4 +84,8 @@ time, mark, audio, video {
 a {
   color: inherit;
 }
+
+.swiper-button-prev, .swiper-button-next {
+  color: #02F0FF;
+}
 /*# sourceMappingURL=main.css.map */

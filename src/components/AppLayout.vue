@@ -1,58 +1,83 @@
 <script setup>
+import { ref } from 'vue';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
+
+const modules = [Pagination, Navigation]
+
+const pagination = {
+  clickable: true,
+  type: 'progressbar'  
+}
+
 const props = defineProps({
     imgUrl: {
         type: String,
         required: true
+    },
+    serviceList: {
+      type: Object,
+      required: true
     }
 })
+
 </script>
 
-<template> 
-  <section>
-    <div :style="`background-image: url(${imgUrl})`" class="intro">
-      <div class="wrapper">
-        <div class="top__wrapper">
-          <div class="arrow__wrapper"></div>
-          <div class="top__title-left">
-            <h1 class="top__text-left">ПОМОЖЕМ СОХРАНИТЬ ИМУЩЕСТВО</h1>
+<template>
+  <section>    
+    <swiper 
+      :pagination="pagination" 
+      :modules="modules" 
+      :navigation="true" 
+      class="intro"
+    >
+      <swiper-slide 
+        v-for="(item, index) in serviceList" 
+        :key="index" :style="`background-image: url(${imgUrl}${item.image})`" 
+        class="intro"
+      >
+        <div class="wrapper">
+          <div class="top__wrapper">
+            <div class="top__title">
+              <h1 class="top__text">{{ item.title }}</h1>
+              <h2 class="top__text-low">{{ item.text }}</h2>
+            </div>
           </div>
-          <div class="top__title-right">
-            <h1 class="top__text-right">ВАШИ ДОЛГИ - НАША ЗАБОТА!</h1>
-          </div>
+          <div class="bottom__wrapper">
+            <div class="button__wrapper">
+              <a href="#!" class="action__btn-text">ЗАКАЗАТЬ ЗВОНОК</a>
+            </div>
+          </div>               
         </div>
-        <div class="bottom__wrapper">
-          <div class="button__wrapper">
-            <a href="#!" class="action__btn-text">ЗАКАЗАТЬ ЗВОНОК</a>
-          </div>
-          <div class="bottom__title-right">
-            <h1 class="bottom__text-right">ПОЛНОЕ СПИСАНИЕ ДОЛГОВ БЕЗ РИСКОВ</h1>
-          </div>
-          <div class="arrow__wrapper-bottom"></div>
-        </div>
-      </div>        
-    </div>
+      </swiper-slide>
+    </swiper>
   </section>
 </template>
 
 <style lang="sass" scoped>
 @import '../assets/styles/main'
-.intro  
+.intro
   height: 740px
   width: 100%
   background-repeat: no-repeat
   background-size: cover
   background-position: center
-  padding-top: 229px
-  text-align: center  
+  text-align: center
+  z-index: 0 
   & .wrapper
-    display: inline-block
-    max-width: 1200px    
+    position: relative
+    display: flex
+    flex-wrap: wrap
+    text-align: left
+    width: 1200px
 .top__wrapper
-  display: grid
-  grid-template-columns: 46px repeat(2, 1fr)
-  column-count: 1
-  gap: 0 70px
-  animation-duration: 2s
+  position: absolute
+  top: -10vh
+  animation-duration: 3s
   animation-name: slidein
   @keyframes slidein
     from
@@ -66,19 +91,8 @@ const props = defineProps({
   @media screen and (max-width: 1200px)
     grid-template-columns: 1fr
     gap: 0 50px    
-.arrow__wrapper
-  background: url('../assets/img/svg/arrow-top.svg') no-repeat left
+.top__title
   transition: .5s
-  margin-bottom: 20px
-  &:hover, &:focus, &:active
-    opacity: .85
-    transform: translateX(-10px)
-    transition: .5s
-  @media screen and (max-width: 1200px)
-    display: none
-.top__title-left
-  transition: .5s
-  text-align: left  
   &:hover, &:focus, &:active
     opacity: .85
     transform: translateX(-10px)
@@ -86,55 +100,36 @@ const props = defineProps({
     cursor: default 
   @media screen and (max-width: 1200px)
    display: none
-.top__text-left
+.top__text
   color: #FFF
   font-size: 36px
   font-style: normal
+  font-weight: 700
+  line-height: normal
+  margin-bottom: 1vh
+.top__text-low
+  color: #FFF
+  font-size: 24px
+  font-style: normal
   font-weight: 400
   line-height: normal
-  padding-right: 100px
-.top__title-right
-  &:hover, &:focus, &:active
-    cursor: default
-  @media screen and (max-width: 1200px)
-    position: sticky
-    display: flex
-    flex-wrap: wrap
-    justify-content: center
-    margin: 0 15px
-.top__text-right
-  color: #FFF
-  font-size: 42px
-  font-style: normal
-  font-weight: 500
-  line-height: normal
-  letter-spacing: 1.5px
-  text-align: left
-  @media screen and (max-width: 1200px)
-    padding-left: 0
-  @media screen and (max-width: 767px)
-    padding-left: 0
-    font-size: 36px
-    text-align: center
 .bottom__wrapper
-  display: grid
-  grid-template-columns: repeat(2, 1fr) 46px
-  margin-top: 80px
+  position: absolute
   animation-duration: 3s
   animation-name: slidein1 
   @media screen and (max-width: 1200px)
     grid-template-columns: 1fr 
   @keyframes slidein1
     from
-      margin-left: 35%
+      margin-top: 35%
       width: 100%
       opacity: 0 
     to
-      margin-left: 0%
+      margin-top: 0%
       width: 100%
       opacity: 1   
 .button__wrapper
-  padding: 40px 85px
+  padding: 30px 65px
   background: rgba(105, 123, 124, 0.69)
   margin: auto
   transition: .5s  
@@ -159,33 +154,31 @@ const props = defineProps({
   text-decoration: none
   cursor: default
   @media screen and (max-width: 1200px)
-    font-size: 20px  
-.bottom__title-right
-  padding: 5% 8% 0 19%
-  transition: .5s
-  &:hover, &:focus, &:active
-    opacity: .85
-    transform: translateX(10px)
-    transition: .5s
-    cursor: default
-  @media screen and (max-width: 1200px)
-    display: none  
-.bottom__text-right
-  color: #FFF
-  font-size: 38px
-  font-style: normal
-  font-weight: 400
-  line-height: normal
-  text-align: left
-.arrow__wrapper-bottom
-  background: url('../assets/img/svg/arrow-right.svg') no-repeat right
-  transition: .5s
-  margin-top: 20px
-  &:hover, &:focus, &:active
-    opacity: .85
-    transform: translateX(10px)
-    transition: .5s
-    cursor: default
-  @media screen and (max-width: 1200px)
-    display: none
+    font-size: 20px
+.swiper
+  width: 100%
+  height: 100%
+.swiper-slide
+  text-align: center
+  font-size: 18px
+  display: flex
+  justify-content: center
+  align-items: center
+  color: #FFFFFF
+.swiper-slide img
+  display: block
+  width: 100%
+  height: 100%
+.swiper-pagination-bullet
+  width: 50px
+  height: 50px
+  text-align: center
+  line-height: 20px
+  font-size: 12px
+  color: #000
+  opacity: 0
+  background: rgba(0, 0, 0, 0.2)
+.swiper-pagination-bullet-active
+  color: #fff
+  background: #007aff
 </style>

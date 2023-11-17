@@ -16,9 +16,6 @@
               <div class="card__desc">
                 Эффективное представительство по защите прав физических и юридических лиц. Сотрудники с опытом работы в системе арбитражных судов всех инстанций
               </div>
-              <a href="#!" class="card__arrow">
-              <img src="/src/assets/img/svg/arrow-bottom-card.svg" alt="arrow-bottom-card">
-              </a>
             </div>
             <div class="card">
               <div class="card__pic">
@@ -30,9 +27,6 @@
               <div class="card__desc">
                 Сопровождение процедуры банкротства на любой стадии
               </div>
-              <a href="#!" class="card__arrow">
-                <img src="/src/assets/img/svg/arrow-bottom-card.svg" alt="arrow-bottom-card">
-              </a>
             </div>
             <div class="card">
               <div class="card__pic">
@@ -44,9 +38,6 @@
               <div class="card__desc">
                 100% успешных кейсов по защите прав граждан. Законные и эффективные подходы по избавлению от долговой нагрузки
               </div>
-              <a href="#!" class="card__arrow">
-                <img src="/src/assets/img/svg/arrow-bottom-card.svg" alt="arrow-bottom-card">
-              </a>
             </div>
           </div>          
         </div>
