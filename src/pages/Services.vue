@@ -1,4 +1,4 @@
-<script aetup></script>
+<script setup></script>
 
 <template>Services</template>
 

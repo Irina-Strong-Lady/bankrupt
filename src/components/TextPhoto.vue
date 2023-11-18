@@ -1,88 +1,129 @@
 <script setup>
-const props = defineProps({
-    imgUrl: {
-        type: String,
-        required: true
-    },
-    serviceList: {
+
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import 'swiper/css/scrollbar';
+import { Parallax, Autoplay, Scrollbar } from 'swiper/modules';
+
+const modules = [Parallax, Autoplay, Scrollbar];
+
+const props = defineProps({    
+    footerImage: {
       type: Object,
       required: true
     }
-})
+});
+
+const autoplay = {
+  delay: 5000
+};
+
+const scrollbar = {
+  hide: true 
+};
+
 </script>
 
 <template>
-  <section>
-    <div class="footer__section-layout">
-      <div :style="`background-image: url(${imgUrl}${serviceList[1].image})`" class="wrapper__photo">
-        <div class="wrapper__text">
-          <p class="text__photo">
-            Закажите платную консультацию юриста по банкротству по телефону
-          </p>
-        </div>
-      </div>
-      <div class="bottom__btn">
-        <div class="footer__button">
-          <a href="#!" class="footer__btn-text">ЗАКАЗАТЬ</a>
-        </div>
-      </div>  
+  <swiper 
+    :style="{
+      '--swiper-navigation-color': $accent,
+      '--swiper-pagination-color': $accent
+    }"
+    :speed="1000"
+    :parallax="true"
+    :modules="modules"
+    :autoplay="autoplay"
+    :scrollbar="scrollbar"
+    class="mySwiper"
+  >
+    <div
+      slot="container-start"     
+      data-swiper-parallax="-23%"
+      class="parallax-bg"
+    >
     </div>
-  </section>
+    <swiper-slide v-for="(item, index) in footerImage"     
+      :style="`background-image: url(${item.image})`"
+      class="image"
+      >      
+      <div class="title" data-swiper-parallax="-300">{{ item.title }}</div>
+      <div class="text" data-swiper-parallax="-100">
+        <p>{{ item.text }}</p>
+      </div>
+    </swiper-slide>
+  </swiper>
+  <swiper>
+    <div class="button">
+      <el-button>Заказать звонок</el-button>
+    </div>
+  </swiper>    
 </template>
 
 <style lang="sass" scoped>
 @import '../assets/styles/main'
-.footer__section-layout
-  max-width: 1920
-  height: 100%
-.wrapper__photo
-  background-repeat: no-repeat
-  background-position: center 
-  background-repeat: no-repeat
-  background-color: rgba(105, 123, 124, 0.12)
-  transition: 1s  
-.wrapper__text
-  display: flex
-  height: 530px
-.text__photo
-  margin: auto
-  max-width: 25%
-  text-align: center
-  color: #FFF
-  font-family: Advent Pro
-  font-size: 42px
-  font-style: normal
-  font-weight: 500
-  line-height: normal
-  @media screen and (max-width: 1200px)
-    max-width: 40%
-    font-size: 36px
-  @media screen and (max-width: 767px)
-    font-size: 28px
-    max-width: 60%
-.bottom__btn
+.mySwiper
+  position: relative
   display: flex
   flex-wrap: wrap
-.footer__button  
-  text-align: center
-  margin: 50px auto 88px auto
-  padding: 40px 120px
-  background: rgba(105, 123, 124, 0.69)
-  transition: .5s
-  &:hover, &:focus, &:active
-    opacity: .85
-    transform: scale(1.025)
-    transition: .5s
-    cursor: pointer
-  @media screen and (max-width: 1200px)
-    padding: 20px 105px
-.footer__btn-text
-  text-decoration: none
-  color: #02F0FF
-  font-size: 24px
-  font-style: normal
-  font-weight: 500
-  line-height: normal
-  @media screen and (max-width: 1200px)
-    font-size: 20px
+  justify-content: center
+  background: $btn
+.parallax-bg
+  position: absolute
+.image
+  height: 60vh  
+  background-position: center center
+  background-size: cover
+  align-content: center
+  justify-content: left
+  @media screen and (max-width: 767px)
+    height: 30vh
+.swiper-slide
+  display: flex
+  flex-wrap: wrap
+  flex-direction: column
+  justify-content: center
+  text-align: justify
+  align-content: flex-start
+.title, .text > p
+  max-width: 500px
+  padding-left: 10vw
+  line-height: 1em
+  word-wrap: break-word
+  color: $pinky_bg
+  @media screen and (max-width: 767px)
+    max-width: 300px
+  @media screen and (max-width: 400px)
+    max-width: 200px
+  @media screen and (max-width: 250px)
+    max-width: 150px
+.title
+  font-size: 30px
+  font-weight: 900
+  text-transform: uppercase
+  padding-bottom: .5em
+  @media screen and (max-width: 767px)
+    font-size: 18px
+.text > p
+  font-weight: normal
+  font-size: 26px
+  font-weight: 600
+  white-space: wrap
+  text-align: justify
+  text-transform: uppercase
+  color: $accent
+  @media screen and (max-width: 767px)
+    font-size: 16px
+.el-button
+  margin-top: 3em
+  padding: 45px 65px
+  @media screen and (max-width: 767px)
+    padding: 35px 45px
+.button
+  display: flex
+  flex-wrap: wrap
+  justify-content: center
+  background: $pinky_bg
 </style>

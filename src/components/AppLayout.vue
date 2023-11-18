@@ -1,59 +1,85 @@
 <script setup>
 import { ref } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Navigation, Pagination, Scrollbar, EffectCoverflow } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/scrollbar';
+import 'animate.css';
 
-
-const modules = [Pagination, Navigation]
+const modules = [Pagination, Navigation, Scrollbar, EffectCoverflow]
 
 const pagination = {
-  clickable: true,
-  type: 'progressbar'  
+  clickable: true, 
+  el: '.swiper-pagination'
 }
 
-const props = defineProps({
-    imgUrl: {
-        type: String,
-        required: true
-    },
+const navigation = {
+  prevEl: '.swiper-button-prev',
+  nextEl: '.swiper-button-next',
+  clickable: true
+}
+
+const scrollbar = {
+  hide: true 
+}
+
+const props = defineProps({    
     serviceList: {
       type: Object,
       required: true
     }
-})
+});
+
+const changeOnSlide = ref(false);
+
+const onSlideChange = () => {
+  changeOnSlide.value == false ? changeOnSlide.value = true : changeOnSlide.value = false;
+};
+
+const onSlideChangeReset = () => {
+  changeOnSlide.value = false;
+};
 
 </script>
 
 <template>
   <section>    
-    <swiper 
-      :pagination="pagination" 
+    <swiper
+      :navigation="navigation"
+      :pagination="pagination"
+      :scrollbar="scrollbar"
       :modules="modules" 
-      :navigation="true" 
+      :effect="'coverflow'"
+      @swiper="onSlideChange"
+      @real-index-change="onSlideChange"
+      @navigation-next="onSlideChange"
+      @navigation-prev="onSlideChange"
+      @slider-move="onSlideChangeReset"
+      @touch-move="onSlideChangeReset"
+      @pagination-update="onSlideChangeReset"
       class="intro"
     >
       <swiper-slide 
         v-for="(item, index) in serviceList" 
-        :key="index" :style="`background-image: url(${imgUrl}${item.image})`" 
+        :key="index" :style="`background-image: url(${item.image})`" 
         class="intro"
       >
         <div class="wrapper">
           <div class="top__wrapper">
             <div class="top__title">
-              <h1 class="top__text">{{ item.title }}</h1>
-              <h2 class="top__text-low">{{ item.text }}</h2>
+              <h1 class="top__text" :class="changeOnSlide == true ? 'animate__bounceInDown' : ''">{{ item.title }}</h1>
+              <h2 class="top__text-low" :class="changeOnSlide == true ? 'animate__bounceInUp' : ''">{{ item.text }}</h2>
             </div>
           </div>
-          <div class="bottom__wrapper">
-            <div class="button__wrapper">
-              <a href="#!" class="action__btn-text">ЗАКАЗАТЬ ЗВОНОК</a>
-            </div>
-          </div>               
-        </div>
+          <el-button :class="changeOnSlide == true ? 'animate__bounceInUp' : ''">Заказать звонок</el-button>
+        </div>               
       </swiper-slide>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-pagination"></div>
     </swiper>
   </section>
 </template>
@@ -61,36 +87,34 @@ const props = defineProps({
 <style lang="sass" scoped>
 @import '../assets/styles/main'
 .intro
-  height: 740px
+  height: 720px
   width: 100%
   background-repeat: no-repeat
   background-size: cover
   background-position: center
   text-align: center
-  z-index: 0 
-  & .wrapper
-    position: relative
-    display: flex
-    flex-wrap: wrap
-    text-align: left
-    width: 1200px
-.top__wrapper
-  position: absolute
-  top: -10vh
-  animation-duration: 3s
-  animation-name: slidein
-  @keyframes slidein
-    from
-      margin-top: 35%
-      width: 100%
-      opacity: 0 
-    to
-      margin-top: 0%
-      width: 100%
-      opacity: 1    
+  z-index: 0
+  @media screen and (max-width: 767px)
+    height: 620px
+.wrapper
+  position: relative
+  text-align: left
+  flex-grow: 1
+  max-width: 1200px
   @media screen and (max-width: 1200px)
-    grid-template-columns: 1fr
-    gap: 0 50px    
+    max-width: 650px
+    justify-items: center
+    padding-left: 15px
+  @media screen and (max-width: 767px)    
+    padding-left: 0
+    padding-right: 70px
+    align-content: middle
+  @media screen and (max-width: 740px)
+    padding-left: 15px
+.top__wrapper
+  display: inline-block
+  width: 100%
+  margin-bottom: 1em  
 .top__title
   transition: .5s
   &:hover, &:focus, &:active
@@ -98,87 +122,33 @@ const props = defineProps({
     transform: translateX(-10px)
     transition: .5s
     cursor: default 
-  @media screen and (max-width: 1200px)
-   display: none
 .top__text
   color: #FFF
   font-size: 36px
   font-style: normal
   font-weight: 700
   line-height: normal
-  margin-bottom: 1vh
+  animation-duration: 1s
+  text-transform: uppercase
+  @media screen and (max-width: 767px)
+    font-size: 20px
 .top__text-low
+  text-align: left
   color: #FFF
-  font-size: 24px
+  font-size: 26px
   font-style: normal
   font-weight: 400
   line-height: normal
-.bottom__wrapper
-  position: absolute
-  animation-duration: 3s
-  animation-name: slidein1 
-  @media screen and (max-width: 1200px)
-    grid-template-columns: 1fr 
-  @keyframes slidein1
-    from
-      margin-top: 35%
-      width: 100%
-      opacity: 0 
-    to
-      margin-top: 0%
-      width: 100%
-      opacity: 1   
-.button__wrapper
-  padding: 30px 65px
-  background: rgba(105, 123, 124, 0.69)
-  margin: auto
-  transition: .5s  
-  &:hover, &:focus, &:active
-    opacity: .85
-    transform: scale(1.025)
-    transition: .5s
-    cursor: default
-  @media screen and (max-width: 1200px)
-   display: flex
-   flex-wrap: wrap
-   margin: auto
-   padding: 30px 120px
+  animation-duration: 2s
+  word-wrap: normal
   @media screen and (max-width: 767px)
-    padding: 20px 62px
-.action__btn-text
-  color: #02F0FF
-  font-size: 24px
-  font-style: normal
-  font-weight: 500
-  line-height: normal
-  text-decoration: none
-  cursor: default
-  @media screen and (max-width: 1200px)
     font-size: 20px
-.swiper
-  width: 100%
-  height: 100%
-.swiper-slide
-  text-align: center
-  font-size: 18px
-  display: flex
-  justify-content: center
-  align-items: center
-  color: #FFFFFF
-.swiper-slide img
-  display: block
-  width: 100%
-  height: 100%
-.swiper-pagination-bullet
-  width: 50px
-  height: 50px
-  text-align: center
-  line-height: 20px
-  font-size: 12px
-  color: #000
-  opacity: 0
-  background: rgba(0, 0, 0, 0.2)
-.swiper-pagination-bullet-active
-  color: #fff
-  background: #007aff
+.swiper-pagination
+  bottom: 10vh
+  @media screen and (max-width: 1650px)
+    bottom: 5vh
+  @media screen and (max-width: 1200px)
+    bottom: 2.5vh
+  @media screen and (max-width: 767px)
+    bottom: 1.5vh
 </style>

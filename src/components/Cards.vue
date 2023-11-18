@@ -1,72 +1,97 @@
-<script setup></script>
+<script setup>
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Navigation, EffectCube, Pagination, Scrollbar } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import 'swiper/css/effect-cube';
+
+const modules = [ EffectCube, Navigation, Scrollbar, Pagination ];
+
+const navigation = {
+  prevEl: '.swiper-button-prev',
+  nextEl: '.swiper-button-next',  
+  clickable: true
+};
+
+const pagination = {
+  clickable: true,
+  el: '.swiper-pagination'
+};
+
+const scrollbar = {
+  hide: true
+};
+
+const props = defineProps({    
+    cardsList: {
+      type: Object,
+      required: true
+    }
+});
+
+</script>
 
 <template>
   <section>
-    <div class="bottom__section-layout">
-      <div class="card__block">
-        <div class="cards__wrapper">
+    <swiper
+      :navigation="navigation"
+      :pagination="pagination"
+      :modules="modules"
+      :scrollbar="scrollbar"
+      :effect="'cube'"
+      :initialSlide="1"
+      :speed="1000"      
+    >
+      <swiper-slide 
+        v-for="(item, index) in cardsList"
+        :key="index"               
+      >
+        <div class="cards__wrapper"
+          v-motion
+            :focused="{ opacity: 0, x: 50 }"
+            :visible="{ opacity: 1, x: 0, transition: {
+                          duration: 800,
+                          type: 'keyframes',
+                          ease: 'easeIn',
+                          mass: .5
+                        }
+                      }"
+        >
           <div class="cards">
             <div class="card">
               <div class="card__pic">
-                <img src="/src/assets/img/svg/bank-building-icon.svg" alt="ПРОЦЕДУРА БАНКРОТСТВА" class="card__pic-thumb">
+                <img :src="`${item.image}`" alt="ПРОЦЕДУРА БАНКРОТСТВА" class="card__pic-thumb">
               </div>
-              <div class="card__title">
-                ПРОЦЕДУРА БАНКРОТСТВА
-              </div>
-              <div class="card__desc">
-                Эффективное представительство по защите прав физических и юридических лиц. Сотрудники с опытом работы в системе арбитражных судов всех инстанций
-              </div>
-            </div>
-            <div class="card">
-              <div class="card__pic">
-                <img src="/src/assets/img/svg/building-icon.svg" alt="БАНКРОТСТВО ЮРИДИЧЕСКИХ ЛИЦ" class="card__pic-thumb">
-              </div>
-              <div class="card__title">
-                БАНКРОТСТВО ЮРИДИЧЕСКИХ ЛИЦ
-              </div>
-              <div class="card__desc">
-                Сопровождение процедуры банкротства на любой стадии
-              </div>
-            </div>
-            <div class="card">
-              <div class="card__pic">
-                <img src="/src/assets/img/svg/user-icon.svg" alt="БАНКРОТСТВО ФИЗИЧЕСКИХ ЛИЦ" class="card__pic-thumb">
-              </div>
-              <div class="card__title">
-                БАНКРОТСТВО ФИЗИЧЕСКИХ ЛИЦ
-              </div>
-              <div class="card__desc">
-                100% успешных кейсов по защите прав граждан. Законные и эффективные подходы по избавлению от долговой нагрузки
-              </div>
+              <div class="card__title">{{ item.title }}</div>
+              <div class="card__desc">{{ item.text }}</div>
             </div>
           </div>          
         </div>
-      </div>
-    </div>
+      </swiper-slide>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-pagination"></div>
+    </swiper>
   </section>
 </template>
 
 <style lang="sass" scoped>
 @import '../assets/styles/main'
-.bottom__section-layout
-  background-color: #EAE2E2
-  height: 100%
 .cards__wrapper
-  max-width: 1200px
+  max-width: 400px
   margin: 0 auto
   background-color: #EAE2E2
   transition: 1s
   padding: 0 10px
 .cards
-  display: grid
-  grid-template-columns: repeat(3, 1fr)
+  display: flex
+  justify-content: center
+  width: 400px
   transition: 1s
-  @media screen and (max-width: 1200px)
-    grid-template-columns: 400px
-    justify-content: center
-    transition: 1s
+  margin: 0 auto
   @media screen and (max-width: 767px)
-    grid-template-columns: 280px
+    width: 280px
 
 @mixin card__effects
   &:hover, &:focus, &:active
@@ -78,16 +103,17 @@
 .card
   display: flex
   flex-direction: column
-  position: relative
-  border: 1px solid #208f96
+  border: 1.5px solid $accent
+  height: 100%
   transition: 1s
+  background: $pinky_bg
   @include card__effects
 .card__pic
   position: sticky
   width: 160px
   height: 160px
   background: #697B7C
-  border: 1px solid #02F0FF
+  border: 1px solid $accent
   border-radius: 50%
   top: 0
   left: 0
@@ -112,37 +138,41 @@
   padding: 0 3em
   color: #313030
   text-align: center
-  font-family: Advent Pro
-  font-size: 26px
+  font-family: sans-serif
+  font-size: 24px
   font-style: normal
   font-weight: 600
   line-height: normal
   @media screen and (max-width: 767px)
-    font-size: 24px
+    font-size: 18px
 .card__desc
   color: #313030
-  text-align: center
-  font-family: Advent Pro
-  font-size: 26px
+  font-family: sans-serif
+  font-size: 24px
   font-style: normal
-  font-weight: 600
-  line-height: normal
+  font-weight: 400
+  line-height: 1.5em
   padding: 0 1em 1em 1em
-  text-align: justify
+  text-align: center
   @media screen and (max-width: 767px)
-    font-size: 24px
-    text-align: center
-.card__arrow
-  display: flex
-  flex-wrap: wrap
-  padding: 0 154px 36px 154px
-  justify-content: baseline
-  margin: auto 0 0 0
-  transition: .5s
-  &:hover, &:focus, &:active
-    opacity: .85
-    transform: translateY(10px)
-    transition: .5s
+    font-size: 14px
+.swiper-slide
+  @media screen and (max-width: 1200px)
+    height: auto
+    align-self: stretch
+.swiper-button-next, .swiper-rtl .swiper-button-prev
+  @media screen and (min-width: 1650px)
+    right: calc(var(--swiper-navigation-size) / 44 * 528) 
+.swiper-button-prev, .swiper-rtl .swiper-button-next
+  @media screen and (min-width: 1650px)
+    left: calc(var(--swiper-navigation-size) / 44 * 528)
+.swiper-pagination
+  position: relative
+  transform: translateY(-3.5vh)
   @media screen and (max-width: 767px)
-    padding: 0 0 36px 90px
+    transform: translateY(-2vh)
+.swiper .swiper-pagination-bullets
+  top: 5vh
+div.swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet
+  border: 1px solid $accent
 </style>

@@ -1,34 +1,107 @@
 <script setup>
-import AppLayout from '../components/AppLayout.vue'
+
+import { computed } from 'vue';
+import AppLayout from '../components/AppLayout.vue';
 import Header from '../components/Header.vue';
 import Cards from '../components/Cards.vue';
 import TextPhoto from '../components/TextPhoto.vue';
+import LawersSlider from '../components/LawersSlider.vue';
 import Footer from '../components/Footer.vue';
-const imgUrl = "/src/assets/img/"
-const serviceList = [
+import background from "@/assets/img/background-image-lawer-reduce.jpg";
+import books from "@/assets/img/books-image-reduce.jpg";
+import library from "@/assets/img/library-image-reduce.jpg";
+import photo from "@/assets/img/slide-lawyer-bg.jpg";
+import writing from "@/assets/img/writing-lawer-reduce.jpg";
+import attorney from "@/assets/img/lawyer-advantages-attorney-reduce.jpg";
+import bank from "@/assets/img/svg/bank-building-icon.svg";
+import building from "@/assets/img/svg/building-icon.svg";
+import person from "@/assets/img/svg/person-icon.svg";
+import lawer1 from "@/assets/img/lawer1.jpg";
+
+const navBarItems = ['Главная', 'Цены', 'Услуги', 'Контакты']
+
+const serviceList = computed(() => [
   {
-    image: 'background-image.jpg',
-    title: 'ВАШИ ДОЛГИ - НАША ЗАБОТА!',
-    text: 'персональные предложения и индивидуальный подход'
+    image: background,
+    title: 'ваши проблемы - наша забота!',
+    text: 'специализируемся на юридических услугах'
   },
   {
-    image: 'photo-for-text.jpg',
-    title: 'ПОМОЖЕМ СОХРАНИТЬ ИМУЩЕСТВО',
-    text: 'гибкая система скидок'
+    image: books,
+    title: 'поможем сохранить имущество',
+    text: 'оказываем поддержку по защите Ваших интересов в суде'
   },
   {
-    image: 'photo-for-text.jpg',
-    title: 'ПОЛНОЕ СПИСАНИЕ ДОЛГОВ БЕЗ РИСКОВ',
-    text: 'помощь в поиске выхода из любой ситуации'
+    image: library,
+    title: 'полное списание долгов без рисков',
+    text: 'готовим стратегию защиты и необходимые документы'
   }
-]  
+]);
+
+const lawerSliderImage = [
+  {
+    image: lawer1,
+    title: 'Юрист по банкротству Ирина',
+    text: '12 лет опыта в сфере банкротства юридичесих и физических лиц. Внушительная история успеха.'
+  },
+  {
+    image: lawer1,
+    title: 'Юрист по банкротству Ольга',
+    text: '10 лет опыта в сфере банкротства юридичесих и физических лиц. Внушительная история успеха'
+  },
+  {
+    image: lawer1,
+    title: 'Юрист по банкротству Светлана',
+    text: '8 лет опыта в сфере банкротства юридичесих и физических лиц. Внушительная история успеха. 8 лет опыта в сфере банкротства юридичесих и физических лиц. Внушительная история успеха. 8 лет опыта в сфере банкротства юридичесих и физических лиц. Внушительная история успеха.'
+  }
+]
+
+const footerImage = [
+  {
+    image: photo,
+    title: 'Вы находитесь в затруднительной жизненной ситуации?',
+    subtitle: 'Помните, что безвыходных положений не бывает!',
+    text: 'Закажите консультацию юриста по телефону'
+  },
+  {
+    image: writing,
+    title: 'Проблемы с кредиторами и банками кажутся неразрешимыми?',
+    subtitle: 'Вам просто необходима консультация квалифицированного юриста!',
+    text: 'Закажите звонок и воспользуйтесь знаниями специалиста в данной области!'
+  },
+  {
+    image: attorney,
+    title: 'Ваши усилия по избавлению от ежемесячных изнуряющих платежей кажутся тщетными?',
+    subtitle: 'Позвольте профессионалам сделать всё за Вас!',
+    text: 'Не теряйте времени, свяжитесь с нашим центром!'
+  }
+];
+
+const cardsList = computed(() => [
+{
+    image: building,
+    title: 'БАНКРОТСТВО ЮРИДИЧЕСКИХ ЛИЦ',
+    text: 'Сопровождение процедуры банкротства на любой стадии. Консультирование, представительство интересов в арбитражных судах'
+},
+{
+  image: bank,
+  title: 'ПРОЦЕДУРА БАНКРОТСТВА',
+  text: 'Эффективное представительство по защите прав и законных интересов физических и юридических лиц. Сотрудники с солидным опытом работы в системе арбитражных судов всех инстанций'
+},
+{
+    image: person,
+    title: 'БАНКРОТСТВО ФИЗИЧЕСКИХ ЛИЦ',
+    text: '100% успешных кейсов по защите прав граждан. Законные и эффективные подходы по избавлению от долговой нагрузки. Полное сопровождение банкротного делопроизводства'
+}
+]);
 </script>
 
 <template>
-  <Header />
-  <AppLayout :imgUrl="imgUrl" :serviceList="serviceList"/> 
-  <Cards />
-  <TextPhoto :imgUrl="imgUrl" :serviceList="serviceList"/>
+  <Header :navBarItems="navBarItems"/>
+  <AppLayout :serviceList="serviceList"/> 
+  <Cards :cardsList="cardsList"/>
+  <TextPhoto :footerImage="footerImage"/>
+  <LawersSlider :lawerSliderImage="lawerSliderImage"/>
   <Footer />
 </template>
 

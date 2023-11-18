@@ -5,11 +5,13 @@
 <template>
   <footer>
     <div class="footer__wrapper">
-      <div class="footer__wrap">
-        <p class="text__wrap">Copyright <span class="copyright">&#169</span> 2023. Центр правовой помощи при банкротстве. Все права защищены.</p>
-        <a href="#!" class="telegram">
-          <img src="/src/assets/img/svg/telegram.svg" alt="telegram">
-        </a>
+      <div class="bg__color-wrapper">
+        <div class="footer__wrap">
+          <p class="text__wrap">Copyright <span class="copyright">&#169</span> 2023. Центр правовой помощи при банкротстве. Все права защищены.</p>
+          <a href="#!" class="telegram">
+            <img src="/src/assets/img/svg/telegram.svg" alt="telegram">
+          </a>
+        </div>
       </div>
     </div>
   </footer>
@@ -18,38 +20,40 @@
 <style lang="sass" scoped>
 @import '../assets/styles/main'
 .footer__wrapper
-  background: rgba(105, 123, 124, 0.69)
+  background: $pinky_bg
+.bg__color-wrapper
+  background: rgb(6 6 6 / 12%)
 .footer__wrap
   display: flex
-  flex-wrap: nowrap
-  flex-flow: row wrap
-  margin: auto auto auto 20vw
+  justify-content: space-around
+  align-items: center
   transition: 1s
-  @media screen and (max-width: 1620px)
-    flex-flow: column wrap
-    margin: auto
-    transition: 1s
-    padding: 10px 10px
 @mixin footer__text
   color: #362E2E
-  font-size: 22px
+  font-family: sans-serif
+  font-size: 18px
   font-style: normal
   font-weight: 500
   line-height: normal
 .text__wrap
-  margin: 45px auto 45px auto
+  margin: 0 auto 0 auto
   text-align: justify
+  align-content: center
   @include footer__text
-  @media screen and (max-width: 767px)
+  @media screen and (max-width: 1000px)
     display: none
 .copyright
   @include footer__text
-  font-size: 30px
+  font-size: 22px
   font-weight: 700
-.telegram
+.telegram img
   position: relative
-  margin: auto
+  float: center
   transition: .5s
+  right: 200%
+  padding: 10px 0 0 0
+  @media screen and (max-width: 1000px)
+    right: 0
   &:hover, &:focus, &:active
     opacity: .85
     transform: scale(1.1)
