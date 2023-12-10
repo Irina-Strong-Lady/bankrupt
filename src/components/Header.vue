@@ -4,10 +4,12 @@ import { ref, onBeforeMount } from 'vue';
 // Handler for navbar change onscroll
 onBeforeMount(() => {
   window.addEventListener('scroll', handleScroll);
+  window.addEventListener('resize', watchWidth);
 });
 
 const handleScroll = () => {
-  window.scrollY > 0 ? stickyHeader.value = true : stickyHeader.value = false;
+  const collapsed = document.querySelector('.collapsed')
+  window.scrollY > 50 || collapsed == null && window.innerWidth < 1000 ? stickyHeader.value = true : stickyHeader.value = false;
 };
 
 const stickyHeader = ref(false);
@@ -18,11 +20,27 @@ const firstItem = document.querySelectorAll('.nav-item');
 firstItem.forEach(item => item.addEventListener('click', item.classList.remove('nav-item-onload')));
 };
 
+// Handler to apply bg-color on active navbar media screen on scrollY == 0 point
 const addDark = () => {
-  const container = document.querySelector('.container-fluid');
-  const toggler = document.querySelector('.navbar-toggler');
-  toggler.addEventListener('click', container.classList?.add('bg-dark'));
-};
+  const container = document.querySelector('.container-fluid')
+  const toggler = document.querySelector('.navbar-toggler')
+  const collapsed = document.querySelector('.collapsed')
+  toggler.addEventListener('click', container.classList?.add('bg-dark'))
+  if (collapsed != null && window.scrollY == 0) {
+    toggler.addEventListener('click', container.classList?.remove('bg-dark'))
+  }
+}
+
+const watchWidth = () => {
+  const show = document.querySelector('.navbar-collapse')
+  const toggler = document.querySelector('.navbar-toggler')
+  if (window.innerWidth > 1000) {
+    show.classList?.remove('show')
+  }
+  else if (window.innerWidth < 1000) {
+    toggler.setAttribute('aria-expanded', 'false')
+  }
+}
 
 const props = defineProps({    
     navBarItems: {
@@ -57,7 +75,7 @@ const props = defineProps({
             </div>
           </div>
           <button class="navbar-toggler" 
-          @click="addDark"
+          @click.capture="addDark"
           id="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             <div class="navbar-close">
