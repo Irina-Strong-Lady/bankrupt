@@ -29,8 +29,8 @@ const scrollbar = {
 <template>
   <swiper 
     :style="{
-      '--swiper-navigation-color': $accent,
-      '--swiper-pagination-color': $accent
+      '--swiper-navigation-color': '$accent',
+      '--swiper-pagination-color': '$accent'
     }"
     :speed="1000"
     :parallax="true"

@@ -1,82 +1,109 @@
 <script setup>
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount } from 'vue'
+import 'animate.css'
 
 // Handler for navbar change onscroll
 onBeforeMount(() => {
-  window.addEventListener('scroll', handleScroll);
-  window.addEventListener('resize', watchWidth);
-});
+  window.addEventListener('scroll', handleScroll)
+  window.addEventListener('scroll', topLogoView)
+  window.addEventListener('scroll', topLogoText)
+  window.addEventListener('load', topLogoView)
+  window.addEventListener('load', topLogoText)
+})
 
+// Handler for navbar background appears when scrolling
 const handleScroll = () => {
-  const collapsed = document.querySelector('.collapsed')
-  window.scrollY > 50 || collapsed == null && window.innerWidth < 1000 ? stickyHeader.value = true : stickyHeader.value = false;
-};
+  window.scrollY > 50 ? stickyHeader.value = true : stickyHeader.value = false
+}
 
-const stickyHeader = ref(false);
+const stickyHeader = ref(false)
+
+// Handler for expanded menu always had bg-dark (even on top Y point)
+const addDarkOnExpand = () => {
+  addDark.value == false ? addDark.value = true : addDark.value = false
+}
+
+const addDark = ref(false)
+
+// Hadler for expanded menu to fit 100% height
+const maxHeighthMenu = () => {
+  maxHeighth.value == false ? maxHeighth.value = true : maxHeighth.value = false
+}
+
+const maxHeighth = ref(false)
+
+// Handler for navbar logo text change to telephone number with animation effect on scroll
+const topLogoView = () => {
+  window.scrollY <= 50 ? topLogo.value = true : topLogo.value = false
+}
+
+const topLogo = ref(false)
+
+// Handler for navbar logo text change to telephone number with animation effect on scroll
+const topLogoText = () => {
+  window.scrollY <= 50 ? topText.value = `${props.navBarLogoItems[0]}` : topText.value = `${props.navBarLogoItems[1]}`
+}
+
+const topText = ref('')
 
 // Handler for change navbar-items color to $accnet on click
 const firstItemHoverRemove = () => {
-const firstItem = document.querySelectorAll('.nav-item');
-firstItem.forEach(item => item.addEventListener('click', item.classList.remove('nav-item-onload')));
-};
-
-// Handler to apply bg-color on active navbar media screen on scrollY == 0 point
-const addDark = () => {
-  const container = document.querySelector('.container-fluid')
-  const toggler = document.querySelector('.navbar-toggler')
-  const collapsed = document.querySelector('.collapsed')
-  toggler.addEventListener('click', container.classList?.add('bg-dark'))
-  if (collapsed != null && window.scrollY == 0) {
-    toggler.addEventListener('click', container.classList?.remove('bg-dark'))
-  }
+const firstItem = document.querySelectorAll('.nav-item')
+firstItem.forEach((item) => item.addEventListener('click', menuAction(item)))
 }
 
-const watchWidth = () => {
-  const show = document.querySelector('.navbar-collapse')
-  const toggler = document.querySelector('.navbar-toggler')
-  if (window.innerWidth > 1000) {
-    show.classList?.remove('show')
-  }
-  else if (window.innerWidth < 1000) {
-    toggler.setAttribute('aria-expanded', 'false')
-  }
+// Function for working with horizontal menu items
+const menuAction = (item) => {
+  const collapse = document.querySelector('.navbar-collapse')
+  const container = document.querySelector('.container-fluid')
+  const button = document.querySelector('.navbar-toggler')
+  if (collapse.classList.contains('show') && 
+      container.classList.contains('bg-dark') &&
+      container.classList.contains('height-menu') &&
+      button.hasAttribute('aria-expanded') == true
+     ) 
+    { 
+      collapse.classList.remove('show')
+      button.setAttribute('aria-expanded', 'false')
+      maxHeighth.value = false
+      addDark.value = false
+    }
+  item.classList.remove('nav-item-onload')
 }
 
 const props = defineProps({    
     navBarItems: {
       type: Array,
       required: true
+    },
+    navBarLogoItems: {
+      type: Array,
+      required: true
     }
 });
-
 </script>
 
 <template>
   <section>
     <nav class="navbar">
       <div        
-        :class="{'bg-dark': stickyHeader}"
+        :class="{'bg-dark': stickyHeader || addDark, 'height-menu': maxHeighth}"
         class="container-fluid navbar-expand-lg navbar-dark"
       >
         <div class="wrapper">
           <div class="navbar-logo">
-            <img src="../assets/img/svg/logo-sm.svg" alt="Центр правовой помощи при банкротстве" class="logo">
-            <div
-              :class="{'vertical-line-logo': !stickyHeader}"
-              :style="{'transition': '.5s'}"
-            >
-            </div>
+            <img src="../assets/img/svg/logo-sm.svg" :alt="`${navBarLogoItems[0]}`" class="logo">
+            <div class="vertical-line-logo"></div>
             <div class="navbar-brand-wrapper">
-              <a              
-                :class="{'navbar-brand-custom': !stickyHeader}"
-                :style="{'transition': '.5s', 'text-decoration': 'none'}" 
-                href="#!">Центр правовой помощи при банкротстве
+              <a             
+                :class="topLogo ? 'navbar-brand-custom animate__bounceInDown' : 'phone animate__fadeInDown'"
+                href="#!">{{ topText }}
               </a>
-            </div>
-          </div>
+            </div> 
+          </div>         
           <button class="navbar-toggler" 
-          @click.capture="addDark"
-          id="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            @click.capture="maxHeighthMenu(); addDarkOnExpand()"
+            id="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             <div class="navbar-close">
               <span class="navbar-close-line"></span>
@@ -108,6 +135,7 @@ const props = defineProps({
   position: fixed
   top: 0
   padding: 1.5vh 0
+  transition: 2s
   z-index: 2
 .wrapper
   display: flex
@@ -116,7 +144,7 @@ const props = defineProps({
   width: 100%
   margin: 0 auto
   box-sizing: border-box
-  align-items: flex-start
+  align-items: flex-wrap
   @media screen and (max-width: 1200px)
     max-width: 650px
     flex-wrap: nowrap
@@ -126,23 +154,39 @@ const props = defineProps({
   @media screen and (max-width: 767px)
     margin: 0
     margin-left: 15px
+.height-menu
+  @media screen and (max-width: 1000px)
+    height: 100%
+    align-content: flex-start
 .bg-dark
   opacity: .85
   background-color: rgb(13, 13, 13, 1)
+  transition: 1s
+  transform: translateX(0%)
 .navbar-logo
   display: flex
   align-items: center
-  justify-self: flex-start
+  justify-self: flex-start  
+.logo
+  @media screen and (max-width: 150px)
+    display: none
 .vertical-line-logo
   display: inline-block
   width: 2px
   height: 40px
   background: $white
   margin-left: 5px
+  @media screen and (max-width: 250px)
+    display: none
 .navbar-brand-wrapper
-  display: flex
-  width: 35%
   margin-left: 5px
+  width: 40%
+  @media screen and (max-width: 1200px)
+    width: 50%
+  @media screen and (max-width: 1150px)
+    width: 40%
+  @media screen and (max-width: 250px)
+    display: none
 .navbar-brand-custom  
   color: $white
   word-wrap: break-word
@@ -150,8 +194,25 @@ const props = defineProps({
   text-align: start
   line-height: 1em
   font-weight: 600
+  animation-duration: 4s
 .navbar-collapse
   justify-content: flex-end
+.phone
+  display: flex
+  flex-wrap: nowrap
+  align-self: center
+  width: 200%
+  color: $white
+  font-weight: 600
+  font-size: 24px
+  text-decoration: none
+  animation-duration: 1.5s
+  @media screen and (max-width: 1200px)
+    font-size: 20px
+  @media screen and (max-width: 800px)
+    font-size: 16px
+  @media screen and (max-width: 250px)
+    display: none
 .navbar-toggler
   position: absolute
   border: none
@@ -165,11 +226,19 @@ const props = defineProps({
   @media screen and (max-width: 400px)
     left: 82.5%  
   @media screen and (max-width: 350px)
-    left: 80%  
-  @media screen and (max-width: 300px)
     left: 77.5%  
-  @media screen and (max-width: 250px)
+  @media screen and (max-width: 300px)
     left: 75%  
+  @media screen and (max-width: 250px)
+    left: 70%  
+  @media screen and (max-width: 200px)
+    left: 65%  
+  @media screen and (max-width: 175px)
+    left: 60%  
+  @media screen and (max-width: 150px)
+    left: 25% 
+  @media screen and (max-width: 100px)
+    left: 0  
   &:focus
     outline: none
     box-shadow: none
@@ -186,13 +255,19 @@ const props = defineProps({
 .nav-item-onload
   &:first-child
     color: $accent
+.selected-item
+  color: $accent
 .nav-link
   font-size: 18px
   &:hover, &:active, &:focus
     color: $accent
 .show a.nav-link
-  margin-top: 1em
-  font-size: 26px
+  @media screen and (max-width: 1000px)
+    margin-top: .5em
+    font-size: 22px
+    transition: .8s ease-in-out
+.collapsing
+  transition: .8s ease-in-out
 .navbar button[aria-expanded="true"] > span.navbar-toggler-icon
   display: none
 .navbar button[aria-expanded="false"] > div.navbar-close
@@ -200,30 +275,14 @@ const props = defineProps({
 .navbar-close
   width: 10px
   height: 10px
-  padding-top: 2.5vh
+  padding-top: 4vh
 .navbar-close-line
   position: absolute
   width: 100%
   height: 2px
-  background-color: $white 
+  background-color: $white
   &:first-child
-    transform: translateY(-50%) rotate(45deg)
+    transform: translateY(-50%) rotate(45deg)     
   &:last-child
     transform: translateY(-50%) rotate(-45deg) 
-
-
-.header__nav
-  transition: .5s all linear
-  margin: auto 0 auto 0
-  @media screen and (max-width: 767px)
-    position: fixed
-    width: 100%
-    height: 100%
-    background-color: #353D45
-    z-index: 10
-    padding: 75px
-    transform: translateX(100%)
-.header__nav-active
-  transform: translateX(0%)
-  transition: .5s all linear
 </style>

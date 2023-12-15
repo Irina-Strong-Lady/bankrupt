@@ -18,6 +18,8 @@ import building from "@/assets/img/svg/building-icon.svg";
 import person from "@/assets/img/svg/person-icon.svg";
 import lawer1 from "@/assets/img/lawer1.jpg";
 
+const navBarLogoItems = ['Центр правовой помощи при банкротстве', '8 (918) 444-71-11']
+
 const navBarItems = ['Главная', 'Цены', 'Услуги', 'Контакты']
 
 const serviceList = computed(() => [
@@ -97,7 +99,7 @@ const cardsList = computed(() => [
 </script>
 
 <template>
-  <Header :navBarItems="navBarItems"/>
+  <Header :navBarItems="navBarItems" :navBarLogoItems="navBarLogoItems"/>
   <AppLayout :serviceList="serviceList"/> 
   <Cards :cardsList="cardsList"/>
   <TextPhoto :footerImage="footerImage"/>

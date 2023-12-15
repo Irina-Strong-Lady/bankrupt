@@ -70,11 +70,11 @@ const onSlideChangeReset = () => {
         <div class="wrapper">
           <div class="top__wrapper">
             <div class="top__title">
-              <h1 class="top__text" :class="changeOnSlide == true ? 'animate__bounceInDown' : ''">{{ item.title }}</h1>
-              <h2 class="top__text-low" :class="changeOnSlide == true ? 'animate__bounceInUp' : ''">{{ item.text }}</h2>
+              <h1 class="top__text" :class="{'animate__bounceInDown': changeOnSlide}">{{ item.title }}</h1>
+              <h2 class="top__text-low" :class="{'animate__bounceInUp': changeOnSlide}">{{ item.text }}</h2>
             </div>
           </div>
-          <el-button :class="changeOnSlide == true ? 'animate__bounceInUp' : ''">Заказать звонок</el-button>
+          <el-button :class="{'animate__bounceInUp': changeOnSlide}">Заказать звонок</el-button>
         </div>               
       </swiper-slide>
       <div class="swiper-button-prev"></div>
