@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <footer>
+  <footer v-cloak>
     <div class="footer__wrapper">
       <div class="bg__color-wrapper">
         <div class="footer__wrap">
@@ -19,6 +19,8 @@
 
 <style lang="sass" scoped>
 @import '../assets/styles/main'
+[v-cloak]
+  display: none
 .footer__wrapper
   background: $pinky_bg
 .bg__color-wrapper

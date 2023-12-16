@@ -112,12 +112,17 @@ const props = defineProps({
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-              <li 
+              <li
                 v-for="(item, index) in navBarItems"
                 :key="index"
                 @click.capture="firstItemHoverRemove()"
                 class="nav-item nav-item-onload">
-                <a class="nav-link" aria-current="page" href="#!">{{ item }}</a>
+                <a 
+                  :href="$router.resolve({name: item.name}).href"                   
+                  class="nav-link" 
+                  aria-current="page"
+                >{{ item.title }}
+                </a>
               </li>
             </ul>
           </div>
@@ -255,8 +260,6 @@ const props = defineProps({
 .nav-item-onload
   &:first-child
     color: $accent
-.selected-item
-  color: $accent
 .nav-link
   font-size: 18px
   &:hover, &:active, &:focus
@@ -266,8 +269,6 @@ const props = defineProps({
     margin-top: .5em
     font-size: 22px
     transition: .8s ease-in-out
-.collapsing
-  transition: .8s ease-in-out
 .navbar button[aria-expanded="true"] > span.navbar-toggler-icon
   display: none
 .navbar button[aria-expanded="false"] > div.navbar-close
