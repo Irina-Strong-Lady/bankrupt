@@ -2,6 +2,17 @@
 import { ref, onBeforeMount } from 'vue'
 import 'animate.css'
 
+const props = defineProps({    
+    navBarItems: {
+      type: Array,
+      required: true
+    },
+    navBarLogoItems: {
+      type: Object,
+      required: true
+    }
+})
+
 // Handler for navbar change onscroll
 onBeforeMount(() => {
   window.addEventListener('scroll', handleScroll)
@@ -37,50 +48,15 @@ const topLogoView = () => {
   window.scrollY <= 50 ? topLogo.value = true : topLogo.value = false
 }
 
-const topLogo = ref(false)
+const topLogo = ref(true)
 
 // Handler for navbar logo text change to telephone number with animation effect on scroll
 const topLogoText = () => {
-  window.scrollY <= 50 ? topText.value = `${props.navBarLogoItems[0]}` : topText.value = `${props.navBarLogoItems[1]}`
+  window.scrollY <= 50 ? topText.value = props.navBarLogoItems.title : topText.value = props.navBarLogoItems.phone
 }
 
-const topText = ref('')
+const topText = ref(props.navBarLogoItems.title);
 
-// Handler for change navbar-items color to $accnet on click
-const firstItemHoverRemove = () => {
-const firstItem = document.querySelectorAll('.nav-item')
-firstItem.forEach((item) => item.addEventListener('click', menuAction(item)))
-}
-
-// Function for working with horizontal menu items
-const menuAction = (item) => {
-  const collapse = document.querySelector('.navbar-collapse')
-  const container = document.querySelector('.container-fluid')
-  const button = document.querySelector('.navbar-toggler')
-  if (collapse.classList.contains('show') && 
-      container.classList.contains('bg-dark') &&
-      container.classList.contains('height-menu') &&
-      button.hasAttribute('aria-expanded') == true
-     ) 
-    { 
-      collapse.classList.remove('show')
-      button.setAttribute('aria-expanded', 'false')
-      maxHeighth.value = false
-      addDark.value = false
-    }
-  item.classList.remove('nav-item-onload')
-}
-
-const props = defineProps({    
-    navBarItems: {
-      type: Array,
-      required: true
-    },
-    navBarLogoItems: {
-      type: Array,
-      required: true
-    }
-});
 </script>
 
 <template>
@@ -92,12 +68,12 @@ const props = defineProps({
       >
         <div class="wrapper">
           <div class="navbar-logo">
-            <img src="../assets/img/svg/logo-sm.svg" :alt="`${navBarLogoItems[0]}`" class="logo">
+            <img src="../assets/img/svg/logo-sm.svg" :alt="`${navBarLogoItems.title}`" class="logo">
             <div class="vertical-line-logo"></div>
             <div class="navbar-brand-wrapper">
               <a             
                 :class="topLogo ? 'navbar-brand-custom animate__bounceInDown' : 'phone animate__fadeInDown'"
-                href="#!">{{ topText }}
+              >{{ topText }}
               </a>
             </div> 
           </div>         
@@ -115,14 +91,8 @@ const props = defineProps({
               <li
                 v-for="(item, index) in navBarItems"
                 :key="index"
-                @click.capture="firstItemHoverRemove()"
                 class="nav-item nav-item-onload">
-                <a 
-                  :href="$router.resolve({name: item.name}).href"                   
-                  class="nav-link" 
-                  aria-current="page"
-                >{{ item.title }}
-                </a>
+                <router-link :to="{name: item.name}" class="nav-link" aria-current="page">{{ item.title }}</router-link>
               </li>
             </ul>
           </div>
@@ -257,13 +227,15 @@ const props = defineProps({
     margin-left: 0
   @media screen and (max-width: 1000px)
     margin-left: 0
-.nav-item-onload
-  &:first-child
-    color: $accent
 .nav-link
   font-size: 18px
   &:hover, &:active, &:focus
     color: $accent
+a.router-link-active
+  display: inline-block
+  width: auto
+  color: $accent
+  border-bottom: medium solid $accent
 .show a.nav-link
   @media screen and (max-width: 1000px)
     margin-top: .5em

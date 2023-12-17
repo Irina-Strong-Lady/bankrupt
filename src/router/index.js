@@ -1,8 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../pages/Home.vue'
-import Prices from '../pages/Prices.vue'
-import Services from '../pages/Services.vue'
-import Contacts from '../pages/Contacts.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,22 +6,22 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: () => import('../pages/Home.vue')
     },    
     {
       path: '/prices',
       name: 'prices',
-      component: Prices
+      component: () => import('../pages/Prices.vue')
     },    
     {
       path: '/services',
       name: 'services',
-      component: Services
+      component: () => import('../pages/Services.vue')
     },    
     {
       path: '/contacts',
       name: 'contacts',
-      component: Contacts
+      component: () => import('../pages/Contacts.vue')
     }    
   ]
 })
