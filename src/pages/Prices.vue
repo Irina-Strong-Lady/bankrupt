@@ -1,15 +1,17 @@
 <script setup>
-import Header from '../components/Header.vue';
-import Footer from '../components/Footer.vue';
-import PagesLayout from '../components/PagesLayout.vue';
-import glasses from "@/assets/img/black_glasses_reduce.jpg";
-import { navBarLogoItems, navBarItems } from '../constants'
+import Header from '../components/Header.vue'
+import Footer from '../components/Footer.vue'
+import PagesLayout from '../components/PagesLayout.vue'
+import PricesDesc from '../components/PricesDesc.vue'
+import glasses from "@/assets/img/black_glasses_reduce.jpg"
+import { navBarLogoItems, navBarItems, priceList, captionList } from '../constants'
 
 </script>
 
 <template>
   <Header :navBarItems="navBarItems" :navBarLogoItems="navBarLogoItems"/>
   <PagesLayout :glasses="glasses" :navBarItems="navBarItems"/>
+  <PricesDesc :captionList="captionList" :priceList="priceList"/>
   <Footer />
 </template>
 
