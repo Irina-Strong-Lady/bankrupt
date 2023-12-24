@@ -15,7 +15,7 @@ const props = defineProps({
 
 const route = useRoute()
 
-const itemRoute = () => navBarItems.find(item => item.name == route.name)
+const itemRoute = () => navBarItems.find(item => item.name == route.name);
 
 </script>
 
@@ -45,7 +45,7 @@ const itemRoute = () => navBarItems.find(item => item.name == route.name)
 .image
   display: flex
   flex-wrap: wrap
-  height: 720px
+  height: 740px
   background: $pinky_bg no-repeat center/cover
 .container
   display: flex

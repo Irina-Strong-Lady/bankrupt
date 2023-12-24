@@ -1,4 +1,19 @@
-<script setup>  
+<script setup>
+import { ref } from 'vue'
+import { useMotion } from '@vueuse/motion'
+
+const targetEl = ref()
+
+useMotion(targetEl, {
+          initial: { opacity: 0, y: 100 },
+          visibleOnce: { opacity: 1, y: 0, transition: {
+                        delay: 200,
+                        type: 'spring',
+                        stiffness: 50,
+                        mass: .5
+                      }
+                    }
+})
 
 const props = defineProps({
   captionList: {
@@ -9,13 +24,13 @@ const props = defineProps({
     type: Array,
     required: true
   }
-})
+});
 </script>
 
 <template>
   <section>
     <div class="wrapper">
-      <table>
+      <table ref="targetEl">
         <tbody>
           <tr></tr>
         </tbody>
@@ -23,32 +38,22 @@ const props = defineProps({
         <tbody>
           <tr>
             <td>&nbsp;</td>
-            <th 
-              v-motion
-                :initial="{ opacity: 0, x: 100, y: 100 }"
-                :visibleOnce="{ opacity: 1, x: 0, y: 0, transition: {
-                              delay: 1000,
-                              type: 'spring',
-                              stiffness: 50,
-                              mass: .5
-                            }
-                          }"
-              class="align-bottom">{{ captionList.price }}
+            <th ref="targetEl" class="align-bottom">{{ captionList.price }}
             </th>
           </tr>
           <tr 
             v-for="(item, index) in priceList" 
             :key="item.id"
             v-motion
-              :initial="{ opacity: 0, x: 100, y: 100 }"
-              :visibleOnce="{ opacity: 1, x: 0, y: 0, transition: {
-                            delay: 1200,
-                            type: 'spring',
-                            stiffness: 50,
-                            mass: .5
-                          }
-                        }"          
-            >
+              :initial="{ opacity: 0, y: 100 }"
+              :visibleOnce="{ opacity: 1, y: 0, transition: {
+                              delay: 400,
+                              type: 'spring',
+                              stiffness: 50,
+                              mass: .5
+                              }
+                            }"          
+          >
             <td :class="index % 2 == 0 ? 'dark-item' : ''">{{ item.service }}</td>
             <td 
               :class="index % 2 == 0 ? 'dark-item' : ''"
@@ -64,7 +69,11 @@ const props = defineProps({
 <style lang="sass" scoped>
 @import '../assets/styles/main'
 .wrapper
-  display: block
+  display: flex
+  flex-wrap: wrap
+  flex-direction: column
+  align-content: center
+  justify-items: center
   background: $pinky_bg
 table
   width: 80%
@@ -78,28 +87,29 @@ caption
   font-family: sans-serif
   text-align: justify
   @media screen and (max-width: 767px)
-    font-size: 10px
+    font-size: 14px
   @media screen and (max-width: 200px)
-    font-size: 6px
+    font-size: 12px
     word-break: break-all
 th, td
   font-family: sans-serif
   font-size: 16px
   padding: 1em 0 10px 10px
   @media screen and (max-width: 767px)
-    font-size: 10px  
+    font-size: 14px
   @media screen and (max-width: 200px)
-    font-size: 6px
+    font-size: 12px
     word-break: break-all  
 th 
   border-right: 1px solid $accent
+  border-bottom: 3px solid $accent
   font-weight: 600
   text-align: center
 td
   border-left: 1px solid $accent
-  padding-right: 10px
+  padding-right: 15px
   font-weight: 500
-  text-align: justify 
+  text-align: left 
 .price
   border-right: 1px solid $accent
   border-left: none
