@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import { navBarItems } from '../constants/header'
+import { navBarItems, navBarLogoItems } from '../constants/header'
 
 const props = defineProps({    
     glasses: {
@@ -9,6 +9,10 @@ const props = defineProps({
     },
     navBarItems: {
       type: Array,
+      required: true
+    },
+    navBarLogoItems: {
+      type: Object,
       required: true
     }
 })
@@ -28,7 +32,8 @@ const itemRoute = () => navBarItems.find(item => item.name == route.name);
             <p>{{ itemRoute().title }}</p>
           <div class="text">
             <p>{{ navBarItems[0].title }}&emsp;</p>
-            <p>&emsp;{{ itemRoute().title }}</p>
+            <p>&emsp;{{ itemRoute().title }}&emsp;</p>
+            <p v-show="itemRoute().title == navBarItems[3].title">&emsp;{{ navBarLogoItems.phone }}</p>
           </div>
           </div>
         </div>
@@ -60,7 +65,11 @@ const itemRoute = () => navBarItems.find(item => item.name == route.name);
   color: $white
   font-size: 30px
   text-align: center   
-  margin-bottom: 20px  
+  margin-bottom: 20px
+  @media screen and (max-width: 767px)
+    font-size: 24px
+  @media screen and (max-width: 350px)
+    font-size: 18px
   @media screen and (max-width: 150px)
     font-size: 16px
   @media screen and (max-width: 100px)
@@ -73,7 +82,15 @@ const itemRoute = () => navBarItems.find(item => item.name == route.name);
   font-size: 24px
   &:first-child::after
     content: '\2022'
+  &:last-child::before
+    content: '\2022'
+  @media screen and (max-width: 767px)
+    font-size: 18px
+  @media screen and (max-width: 350px)
+    font-size: 14px
   @media screen and (max-width: 250px)
+    &:last-child
+      display: none
     font-size: 12px
   @media screen and (max-width: 100px)
     display: none

@@ -77,15 +77,19 @@ const props = defineProps({
   background: $pinky_bg
 table
   width: 80%
+  margin: 20px 0
+  border-left: 1px solid $accent
+  border-right: 1px solid $accent
+  border-bottom: 1px solid $accent
 caption
   caption-side: top
-  padding: 30px 10px
-  color: $white
   background: $table_caption
   font-size: 16px
   font-weight: bold
   font-family: sans-serif
   text-align: justify
+  color: $white
+  padding: 30px 10px
   @media screen and (max-width: 767px)
     font-size: 14px
   @media screen and (max-width: 200px)
@@ -101,20 +105,17 @@ th, td
     font-size: 12px
     word-break: break-all  
 th 
-  border-right: 1px solid $accent
+  font-weight: 600
+  text-align: center
   border-bottom: 3px solid $accent
-  font-weight: 600
-  text-align: center
 td
-  border-left: 1px solid $accent
-  padding-right: 15px
   font-weight: 500
-  text-align: left 
+  text-align: left
+  padding-right: 15px
 .price
-  border-right: 1px solid $accent
-  border-left: none
   text-align: center
   font-weight: 600
+  border-left: none
 .dark-item
   background: $circles
   color: $white

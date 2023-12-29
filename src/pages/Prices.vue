@@ -10,7 +10,7 @@ import { navBarLogoItems, navBarItems, priceList, captionList } from '../constan
 
 <template>
   <Header :navBarItems="navBarItems" :navBarLogoItems="navBarLogoItems"/>
-  <PagesLayout :glasses="glasses" :navBarItems="navBarItems"/>
+  <PagesLayout :glasses="glasses" :navBarItems="navBarItems" :navBarLogoItems="navBarLogoItems"/>
   <PricesDesc :captionList="captionList" :priceList="priceList"/>
   <Footer />
 </template>
