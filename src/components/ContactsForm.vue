@@ -159,7 +159,7 @@ const isValidText = computed(() => {
                 :disabled="!checked"
                 :style="!checked ? 'cursor: not-allowed' : 'cursor: pointer'"
               >
-                <span :style="!checked ? 'cursor: not-allowed' : 'cursor: pointer'">Задать вопрос</span>
+                <span :style="!checked ? 'cursor: not-allowed; color: #362E2E' : 'cursor: pointer'">Задать вопрос</span>
               </el-button>                
             </el-form-item>
             <el-form-item>
@@ -192,18 +192,13 @@ const isValidText = computed(() => {
 .wrapper
   width: 100%
   height: 100%
+  padding: .5px 0
+  background: $pinky_bg
 .container
   display: block
   margin: 0 auto
   @media screen and (max-width: 150px)
     display: none
-.confidential
-  position: relative
-  transform: translateX(0%)
-  opacity: .85
-  transition: .8s ease-in-out
-  background: $drop_menubg
-  z-index: 1
 .container > p
   font-family: sans-serif
   font-size: 18px
@@ -281,6 +276,7 @@ const isValidText = computed(() => {
   @media screen and (max-width: 350px)
     margin: 3.5em 0
 .el-checkbox__label > a
+  white-space: normal
   @media screen and (max-width: 767px)
     font-size: 14px
   @media screen and (max-width: 250px)

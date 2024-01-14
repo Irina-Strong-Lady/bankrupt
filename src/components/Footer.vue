@@ -31,7 +31,7 @@
   align-items: center
   transition: 1s
 @mixin footer__text
-  color: #362E2E
+  color: $footer_letters
   font-family: sans-serif
   font-size: 18px
   font-style: normal
