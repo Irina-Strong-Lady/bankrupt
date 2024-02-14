@@ -1,24 +1,27 @@
 <script setup>
+import { ref } from 'vue'
+import DialogForm from './modal/DialogForm.vue'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import 'swiper/css/navigation'
+import 'swiper/css/scrollbar'
+import { Parallax, Autoplay, Scrollbar } from 'swiper/modules'
 
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import 'swiper/css/scrollbar';
-import { Parallax, Autoplay, Scrollbar } from 'swiper/modules';
+const modules = [Parallax, Autoplay, Scrollbar]
 
-const modules = [Parallax, Autoplay, Scrollbar];
+const dialogFormVisible = ref(false)
 
 const props = defineProps({    
     footerImage: {
       type: Object,
       required: true
     }
-});
+})
 
 const autoplay = {
   delay: 5000
-};
+}
 
 const scrollbar = {
   hide: true 
@@ -57,9 +60,14 @@ const scrollbar = {
   </swiper>
   <swiper>
     <div class="button">
-      <el-button>Заказать звонок</el-button>
+      <el-button 
+        @click="dialogFormVisible = true"
+      >
+        Заказать звонок
+      </el-button>
     </div>
-  </swiper>    
+  </swiper>
+  <DialogForm v-model="dialogFormVisible" />    
 </template>
 
 <style lang="sass" scoped>
