@@ -4,7 +4,7 @@ import Footer from '../components/Footer.vue'
 import PagesLayout from '../components/PagesLayout.vue'
 import PricesDesc from '../components/PricesDesc.vue'
 import glasses from "@/assets/img/black_glasses_reduce.jpg"
-import { navBarLogoItems, navBarItems, priceList, captionList } from '../constants'
+import { navBarLogoItems, navBarItems, priceList, captionList } from '../constants';
 
 </script>
 

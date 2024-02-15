@@ -1,27 +1,24 @@
 <script setup>
-import { reactive, defineModel, ref } from 'vue'
+import { defineModel, ref } from 'vue'
+import { onSubmit, addQuestionForm } from '@/composable'
 import { vMaska } from 'maska'
 
 const dialogFormVisible = defineModel()
 
-const checked = ref(false)
-
-const form = reactive({
-  name: '',
-  phone: '',
-  email: '',
-  question: ''
-});
+const checked = ref(false);
 
 </script>
 
 <template>
   <el-dialog v-model="dialogFormVisible" class="el-dialog-custom">
-    <el-form :model="form">
+    <el-form 
+      :model="addQuestionForm"
+      @submit="onSubmit"
+    >
       <el-form-item >
         <div class="circle"></div>
         <el-input 
-          v-model="form.name" 
+          v-model="addQuestionForm.name" 
           name="name" 
           type="text"
           placeholder="Имя"          
@@ -29,10 +26,10 @@ const form = reactive({
           required
         />
       </el-form-item>
-      <el-form-item >
+      <el-form-item class="el-form-item-2">
         <div class="circle"></div>
         <el-input 
-          v-model="form.phone" 
+          v-model="addQuestionForm.phone" 
           v-maska :data-maska="'+7 (###) ###-##-##'"
           name="phone"
           placeholder="Телефон"
@@ -42,6 +39,8 @@ const form = reactive({
       </el-form-item>
       <el-checkbox 
         v-model="checked" 
+        size="large"
+        border="true"
         class="checkbox"
       >
         <p 
@@ -52,14 +51,14 @@ const form = reactive({
       <el-form-item :class="checked ? 'email-visible' : 'email-invisible'">        
         <div class="circle"></div>
         <el-input
-          v-model="form.email"
+          v-model="addQuestionForm.email"
           type="email"
           placeholder="Email"
         />
       </el-form-item>
       <el-form-item>
         <el-input 
-          v-model="form.question" 
+          v-model="addQuestionForm.question" 
           name="question"
           type="textarea" 
           placeholder="Вопрос"
@@ -68,7 +67,10 @@ const form = reactive({
           class="el-input-textarea"
         />
       </el-form-item>
-      <el-button native-type="submit" @click="dialogFormVisible = false" class="el-button-dialog">
+      <el-button 
+        native-type="submit" 
+        class="el-button-dialog"
+      >
         Отправить
       </el-button>
     </el-form>
@@ -104,7 +106,7 @@ const form = reactive({
 :global(.el-dialog__headerbtn .el-dialog__close)
   color: $white
 .el-form-item:first-child
-  margin: 100px 0 115px 547px
+  margin: 100px 0 75px 547px
   @media screen and (max-width: 1800px)
     margin: 65px 0 30px 450px
   @media screen and (max-width: 1200px)
@@ -118,7 +120,7 @@ const form = reactive({
   @media screen and (max-width: 200px)
     display: none
 .el-form-item:nth-child(2n), .el-form-item:nth-child(3n), .checkbox
-  margin: 0 0 115px 547px
+  margin: 0 0 75px 547px
   @media screen and (max-width: 1800px)
     margin: 0 0 30px 450px
   @media screen and (max-width: 1200px)
@@ -172,6 +174,7 @@ const form = reactive({
 :deep(.el-textarea__inner)
   width: 825px
   height: 315px
+  margin-left: 547px
   padding: 25px 0 0 50px
   --el-input-text-color: #FFFFFF
   background: $table_caption
@@ -233,6 +236,8 @@ const form = reactive({
 .checkbox
   margin-top: 0
   margin-bottom: 0
+:deep(.el-checkbox__inner)
+  border-radius: 0px
 .email-label
   margin-left: 15px
 .email-visible

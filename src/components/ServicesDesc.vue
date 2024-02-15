@@ -71,6 +71,5 @@ h1
 h3 
   font-size: 18px
   @media screen and (max-width: 200px)
-    font-size: 12px
-  
+    font-size: 12px  
 </style>

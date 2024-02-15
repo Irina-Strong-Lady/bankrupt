@@ -1,29 +1,27 @@
 <script setup>
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation, Pagination, Scrollbar } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import 'swiper/css/navigation'
+import 'animate.css'
 
-import { ref } from 'vue';
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import { Navigation, Pagination, Scrollbar } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import 'animate.css';
-
-const modules = [Navigation, Scrollbar, Pagination];
+const modules = [Navigation, Scrollbar, Pagination]
 
 const navigation = {
   prevEl: '.swiper-button-prev',
   nextEl: '.swiper-button-next',  
   clickable: true 
-};
+}
 
 const pagination = {
   clickable: true,
   el: '.swiper-pagination'
-};
+}
 
 const scrollbar = {
   hide: true 
-};
+}
 
 const props = defineProps({    
     lawerSliderImage: {

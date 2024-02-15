@@ -1,9 +1,7 @@
 <script setup>
-import { ref, reactive, computed } from 'vue'
-import axios from 'axios'
+import { ref, computed } from 'vue'
+import { onSubmit, addQuestionForm } from '../composable'
 import { vMaska } from 'maska'
-import { pathURL, secretPhrase } from '../constants'
-import { ElMessage } from 'element-plus'
 
 const props = defineProps({
   titleContact: {
@@ -18,69 +16,7 @@ const props = defineProps({
 
 const email = ref(null)
 
-const checked = ref(false);
-
-let questions = []
-
-const addQuestionForm = reactive({name: '', phone: '', email: '', question: ''})
-
-const getQuestions = () => {
-  const path = pathURL
-  axios
-    .get(path, { headers: {secret: secretPhrase} })
-    .then((res) => {
-      questions = res.data.questions;
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-}
-
-const addQuestion = payload => {
-  const path = pathURL
-  axios
-    .post(path, payload, { headers: {secret: secretPhrase} })
-    .then(() => {
-      ElMessage({ type: "success", 
-                  message: "Успешно! Ваш вопрос передан в обработку.", 
-                  showClose: true, 
-                  center: true, 
-                  grouping: true, 
-                  offset: 20
-                })
-      getQuestions()
-    })
-    .catch((err) => {
-      console.error(err)
-      ElMessage({ type: "error", 
-                  message: "Произошла неожиданная ошибка! Попробуйте позже.", 
-                  showClose: true, 
-                  center: true, 
-                  grouping: true, 
-                  offset: 20
-                })
-      getQuestions()
-    })
-}
-
-const initForm = () => {
-  addQuestionForm.name = ""
-  addQuestionForm.phone = ""
-  addQuestionForm.email = ""
-  addQuestionForm.question = ""
-}
-
-const onSubmit = (event) => {
-  event.preventDefault()
-  const payload = {
-    name: addQuestionForm.name,
-    phone: addQuestionForm.phone,
-    email: addQuestionForm.email,
-    question: addQuestionForm.question    
-  }
-  addQuestion(payload)
-  initForm()
-}
+const checked = ref(false)
 
 const isValidName = computed(() => {
     return /^[a-zA-Zа-яА-я ]+$/.test(addQuestionForm.name)

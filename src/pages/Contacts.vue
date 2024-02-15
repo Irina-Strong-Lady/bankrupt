@@ -6,7 +6,6 @@ import ContactsForm from '../components/ContactsForm.vue'
 import glasses from "@/assets/img/black_glasses_reduce.jpg"
 import { navBarLogoItems, navBarItems, titleContact, labelItem } from '../constants'
 
-
 </script>
 
 <template>
