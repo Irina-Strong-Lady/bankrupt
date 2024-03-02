@@ -8,7 +8,7 @@
       <div class="bg__color-wrapper">
         <div class="footer__wrap">
           <p class="text__wrap">Copyright <span class="copyright">&#169</span> 2023. Центр правовой помощи при банкротстве. Все права защищены.</p>
-          <a href="#!" class="telegram">
+          <a href="https://t.me/brain_iobot" target="_blank" class="telegram">
             <img src="/src/assets/img/svg/telegram.svg" alt="telegram">
           </a>
         </div>

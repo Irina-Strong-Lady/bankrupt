@@ -3,12 +3,25 @@ import axios from 'axios'
 import { pathURL, secretPhrase } from '../constants'
 import { ElMessage } from 'element-plus'
 
+let users = []
 let questions = []
 
 export const addQuestionForm = reactive({name: '', phone: '', email: '', question: ''})
 
+const getUsers = () => {
+  const path = pathURL + '/users'
+  axios
+    .get(path, { headers: {secret: secretPhrase} })
+    .then((res) => {
+      users = res.data.users;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
+
 const getQuestions = () => {
-  const path = pathURL
+  const path = pathURL + '/questions'
   axios
     .get(path, { headers: {secret: secretPhrase} })
     .then((res) => {
@@ -19,8 +32,20 @@ const getQuestions = () => {
     });
 }
 
+const addUser = payload => {
+  const path = pathURL + '/users'
+  axios
+    .post(path, payload, { headers: {secret: secretPhrase} })
+    .then(() => getUsers())
+    .catch((err) => {
+      console.error(err)
+      getUsers()
+      }
+    )
+}
+
 const addQuestion = payload => {
-  const path = pathURL
+  const path = pathURL + '/questions'
   axios
     .post(path, payload, { headers: {secret: secretPhrase} })
     .then(() => {
@@ -59,8 +84,9 @@ export const onSubmit = (event) => {
     name: addQuestionForm.name,
     phone: addQuestionForm.phone,
     email: addQuestionForm.email,
-    question: addQuestionForm.question    
+    question: addQuestionForm.question
   }
+  addUser(payload)
   addQuestion(payload)
   initForm()
 }

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue'
+import { homeDropdown } from '../constants'
 import 'animate.css'
 
 const props = defineProps({    
@@ -92,7 +93,32 @@ const topText = ref(props.navBarLogoItems.title);
                 v-for="(item, index) in navBarItems"
                 :key="index"
                 class="nav-item nav-item-onload">
-                <router-link :to="{name: item.name}" class="nav-link" aria-current="page">{{ item.title }}</router-link>
+                <el-dropdown>
+                  <span class="el-dropdown-link">
+                    <router-link 
+                      :to="{name: item.name}" 
+                      class="nav-link" 
+                      aria-current="page"
+                      >{{ item.title }}
+                    </router-link>
+                  </span>
+                  <template #dropdown v-if="item.name == 'home'">
+                    <el-dropdown-menu>                      
+                      <el-dropdown-item 
+                        v-for="(item, index) in homeDropdown"
+                        :key="index"
+                      >
+                        <img src="src/assets/img/png/right-point-arrow.png" alt="point" class="custom-arrow">
+                        <router-link 
+                          :to="{name: item.name}" 
+                          class="dropdown-item"
+                        >
+                          {{ item.title }}
+                        </router-link>
+                      </el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>                
               </li>
             </ul>
           </div>
@@ -257,5 +283,32 @@ a.router-link-active
   &:first-child
     transform: translateY(-50%) rotate(45deg)     
   &:last-child
-    transform: translateY(-50%) rotate(-45deg) 
+    transform: translateY(-50%) rotate(-45deg)
+.el-dropdown-menu
+  background-color: $table_caption  
+:global(.el-dropdown-menu__item)
+  color: $white
+  padding: 15px 10px 15px 10px  
+  border-bottom: 1px solid rgb(153, 144, 144)
+  margin: 1.5px
+.dropdown-item
+  font-family: sans-serif
+  font-size: 14px
+  font-weight: 400
+  text-transform: uppercase
+  border: none
+.custom-arrow
+  margin-right: 15px
+  height: 12.5px
+  width: 12.5px  
+.el-dropdown-link
+  color: $white
+  &.el-tooltip__trigger
+    outline: none
+:global(.el-dropdown__popper)
+  --el-dropdown-menuItem-hover-fill: $table_caption
+:global(span.el-popper__arrow, .el-dropdown__popper)
+  display: none
+:global(.el-dropdown__popper.el-popper)
+  border: none
 </style>
