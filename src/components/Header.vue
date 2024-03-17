@@ -108,7 +108,7 @@ const topText = ref(props.navBarLogoItems.title);
                         v-for="(item, index) in homeDropdown"
                         :key="index"
                       >
-                        <img src="src/assets/img/png/right-point-arrow.png" alt="point" class="custom-arrow">
+                        <img src="@/assets/img/png/right-point-arrow.png" alt="point" class="custom-arrow">
                         <router-link 
                           :to="{name: item.name}" 
                           class="dropdown-item"
