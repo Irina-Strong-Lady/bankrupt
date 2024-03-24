@@ -1,12 +1,9 @@
 <script setup>
-import { ref } from 'vue'
-import Header from '../components/Header.vue';
+import { ref, onMounted, computed } from 'vue'
+import Header from '../components/Header.vue'
 import RegisterForm from './forms/RegisterForm.vue'
 import LoginForm from './forms/LoginForm.vue'
-import { 
-        navBarLogoItems, 
-        navBarItems 
-      } from '../constants';
+import { navBarLogoItems, navBarItems } from '../constants'
 
 const registerFormVisible = ref(false)
 

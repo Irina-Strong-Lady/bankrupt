@@ -1,28 +1,25 @@
 <script setup>
 import { defineModel } from 'vue'
-import { onSubmit, addQuestionForm, vuelidate } from '@/composable'
+import { onSubmitUser, addRegisterForm, vuelidateUser } from '@/composable'
+import { registerPassword, registerConfirm } from '../constants'
 import NameForm from '../../components/modal/formitems/NameForm.vue'
 import PhoneForm from '../../components/modal/formitems/PhoneForm.vue'
 import PasswordForm from '../formitems/PasswordForm.vue'
 
 const registerFormVisible = defineModel()
 
-const buttonPassword1 = 'Придумайте пароль'
-
-const buttonPassword2 = 'Подтвердите пароль';
-
 </script>
 
 <template>
   <el-dialog v-model="registerFormVisible" class="el-dialog-custom">
     <el-form 
-      :model="addQuestionForm"
-      @submit="onSubmit"
+      :model="addRegisterForm"
+      @submit="onSubmitUser"
     >
-      <NameForm :addForm="addQuestionForm" :vuelidate="vuelidate" />
-      <PhoneForm :addForm="addQuestionForm" :vuelidate="vuelidate" />
-      <PasswordForm :addForm="addQuestionForm" :buttonPassword="buttonPassword1" :vuelidate="vuelidate" />
-      <PasswordForm :addForm="addQuestionForm" :buttonPassword="buttonPassword2" :vuelidate="vuelidate" />
+      <NameForm :addForm="addRegisterForm" :vuelidate="vuelidateUser" />
+      <PhoneForm :addForm="addRegisterForm" :vuelidate="vuelidateUser" />
+      <PasswordForm :addForm="addRegisterForm" :placeholder="registerPassword" :vuelidate="vuelidateUser" />
+      <PasswordForm :addForm="addRegisterForm" :placeholder="registerConfirm" :vuelidate="vuelidateUser" />
       <el-button 
         native-type="submit" 
         class="el-button-dialog"

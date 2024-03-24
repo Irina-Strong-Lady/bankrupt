@@ -1,9 +1,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
+import { registerPassword, registerConfirm, loginPassword } from '../constants'
 
 const props = defineProps({  
-    buttonPassword: {
+    placeholder: {
         type: String,
         required: true
     }, 
@@ -11,6 +12,10 @@ const props = defineProps({
       type: Object,
       required: true,
       default: {}
+    },
+    vuelidate: {
+      type: Object,
+      required: true
     }
 })
 
@@ -30,13 +35,51 @@ const eyeSize = () => width.value > 1200 ? size.value = 30 : size.value = 20;
   <el-form-item>
     <div class="circle"></div>
       <el-input
-        v-model="addForm.confirm"
+        v-if="placeholder == registerPassword"
+        v-model="addForm.password" 
+        @input="vuelidate.$touch()"
         name="password" 
         :type="eyes ? 'text' : 'password'"
-        :placeholder="buttonPassword"
+        :placeholder="registerPassword"
         autocomplete="off"
-        required
       />
+      <el-input
+        v-else-if="placeholder == registerConfirm"
+        v-model="addForm.confirm" 
+        @input="vuelidate.$touch()"
+        name="password" 
+        :type="eyes ? 'text' : 'password'"
+        :placeholder="registerConfirm"
+        autocomplete="off"
+      />
+      <el-input
+        v-else-if="placeholder == loginPassword"
+        v-model="addForm.password" 
+        @input="vuelidate.$touch()"
+        name="password" 
+        :type="eyes ? 'text' : 'password'"
+        :placeholder="loginPassword"
+        autocomplete="off"
+      />
+      <div class="message-wrapper">
+        <transition name="fade" appear>
+        <small
+          v-if="vuelidate.password.$error && placeholder == registerPassword"
+          class="el-input__message"
+        >{{ vuelidate.password.$errors[0].$message }}
+        </small>
+        <small
+          v-else-if="vuelidate.confirm?.$error && placeholder == registerConfirm"
+          class="el-input__message"
+        >{{ vuelidate.confirm.$errors[0].$message }}
+        </small>
+        <small
+          v-else-if="vuelidate.password.$error && placeholder == loginPassword"
+          class="el-input__message"
+        >{{ vuelidate.password.$errors[0].$message }}
+        </small>
+      </transition>
+    </div>
     <div @click="eyesChange" class="fa-eye">
       <svg v-if="!eyes"  xmlns="http://www.w3.org/2000/svg" :width="eyeSize()" :height="eyeSize()" fill="#FFFFFF" class="bi bi-eye-slash" viewBox="0 0 16 16"> 
         <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z"/> 
@@ -66,6 +109,7 @@ const eyeSize = () => width.value > 1200 ? size.value = 30 : size.value = 20;
   @media screen and (max-width: 250px)
     display: none
 .bi
+  margin-bottom: 1em
   cursor: pointer
   pointer-events: auto
 .error-wrapper

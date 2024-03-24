@@ -1,23 +1,35 @@
-import { reactive } from 'vue'
 import axios from 'axios'
-import { pathURL, secretPhrase } from '../constants'
-import { useVuelidate } from '@vuelidate/core'
-import { rules } from './vuelidate'
+import { reactive, computed } from 'vue'
 import { ElMessage } from 'element-plus'
+import { useVuelidate } from '@vuelidate/core'
+import { pathURL, secretPhrase } from '../constants'
+import { email, required, helpers, minLength } from '@vuelidate/validators'
 
-let users = []
+let visitors = []
 let questions = []
 
 export const addQuestionForm = reactive({name: '', phone: '', email: '', question: '', password: '', confirm: ''})
 
-export const vuelidate = useVuelidate(rules, addQuestionForm)
+const rulesVisitor = computed(() => {
+  return {
+  name: {required: helpers.withMessage('Обязательное поле', required), 
+         minLength: helpers.withMessage('Введите более 1-ой буквы' , minLength(2))},
+  phone: {required: helpers.withMessage('Обязательное поле', required),
+          minLength: helpers.withMessage('Неверный формат номера', minLength(18))}, 
+  email: {email: helpers.withMessage('Некорректный email', email)},
+  question: {required: helpers.withMessage('Обязательное поле', required), 
+             minLength: helpers.withMessage('Сформулируйте вопрос' , minLength(6))}
+  }
+})
 
-const getUsers = () => {
-  const path = `${pathURL}/users`
+export const vuelidateVisitor = useVuelidate(rulesVisitor, addQuestionForm)
+
+const getVisitors = () => {
+  const path = `${pathURL}/visitors`
   axios
     .get(path, { headers: {secret: secretPhrase} })
     .then((res) => {
-      users = res.data.users;
+      visitors = res.data.visitors;
     })
     .catch((err) => {
       console.error(err);
@@ -36,15 +48,15 @@ const getQuestions = () => {
     });
 }
 
-const addUser = payload => {
-  const path = `${pathURL}/users`
+const addVisitor = payload => {
+  const path = `${pathURL}/visitors`
   axios
     .post(path, payload, { headers: {secret: secretPhrase} })
-    .then(() => getUsers())
+    .then(() => getVisitors())
     .then(() => addQuestion(payload))
     .catch((err) => {
       console.error(err)
-      getUsers()
+      getVisitors()
       }
     )
 }
@@ -83,9 +95,9 @@ const initForm = () => {
   addQuestionForm.question = ""
 }
 
-export const onSubmit = async (event) => {
+export const onSubmitVisitor = async (event) => {
   event.preventDefault()
-  const result = await vuelidate.value.$validate()
+  const result = await vuelidateVisitor.value.$validate()
   if (result) {
   const payload = {
     name: addQuestionForm.name,
@@ -93,7 +105,7 @@ export const onSubmit = async (event) => {
     email: addQuestionForm.email,
     question: addQuestionForm.question
   }
-    addUser(payload)
+    addVisitor(payload)
     initForm()
   } else {
     ElMessage({ type: "error", 

@@ -1,23 +1,22 @@
 <script setup>
 import { defineModel } from 'vue'
-import { onSubmit, addQuestionForm, vuelidate } from '@/composable'
+import { onSubmitLogin, addLoginForm, vuelidateLogin } from '@/composable'
 import NameForm from '../../components/modal/formitems/NameForm.vue'
 import PasswordForm from '../formitems/PasswordForm.vue'
+import { loginPassword } from '../constants'
 
-const loginFormVisible = defineModel()
-
-const buttonPassword = 'Введите пароль'
+const loginFormVisible = defineModel();
 
 </script>
 
 <template>
   <el-dialog v-model="loginFormVisible" class="el-dialog-custom">
     <el-form 
-      :model="addQuestionForm"
-      @submit="onSubmit"
+      :model="addLoginForm"
+      @submit="onSubmitLogin"
     >
-      <NameForm :addForm="addQuestionForm" :vuelidate="vuelidate" />
-      <PasswordForm :addForm="addQuestionForm" :buttonPassword="buttonPassword" />
+      <NameForm :addForm="addLoginForm" :vuelidate="vuelidateLogin" />
+      <PasswordForm :addForm="addLoginForm" :placeholder="loginPassword" :vuelidate="vuelidateLogin"/>
       <el-button 
         native-type="submit" 
         class="el-button-dialog"

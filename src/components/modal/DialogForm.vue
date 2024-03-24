@@ -1,6 +1,6 @@
 <script setup>
 import { defineModel, ref } from 'vue'
-import { onSubmit, addQuestionForm, vuelidate } from '@/composable'
+import { onSubmitVisitor, addQuestionForm, vuelidateVisitor } from '@/composable'
 import QuestionForm from './formitems/QuestionForm.vue'
 import NameForm from './formitems/NameForm.vue'
 import PhoneForm from './formitems/PhoneForm.vue'
@@ -16,10 +16,10 @@ const checked = ref(false);
   <el-dialog v-model="dialogFormVisible" class="el-dialog-custom">
     <el-form 
       :model="addQuestionForm"
-      @submit="onSubmit"
+      @submit="onSubmitVisitor"
     >
-      <NameForm :addForm="addQuestionForm" :vuelidate="vuelidate" />
-      <PhoneForm :addForm="addQuestionForm" :vuelidate="vuelidate" />
+      <NameForm :addForm="addQuestionForm" :vuelidate="vuelidateVisitor" />
+      <PhoneForm :addForm="addQuestionForm" :vuelidate="vuelidateVisitor" />
       <el-checkbox 
         v-model="checked" 
         size="large"
@@ -31,8 +31,8 @@ const checked = ref(false);
           class="email-label"
         >Email</p>
       </el-checkbox>
-      <EmailForm :addForm="addQuestionForm" :checked="checked" :vuelidate="vuelidate" />
-      <QuestionForm :addForm="addQuestionForm" :vuelidate="vuelidate" />
+      <EmailForm :addForm="addQuestionForm" :checked="checked" :vuelidate="vuelidateVisitor" />
+      <QuestionForm :addForm="addQuestionForm" :vuelidate="vuelidateVisitor" />
       <el-button 
         native-type="submit" 
         class="el-button-dialog"

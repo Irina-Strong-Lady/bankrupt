@@ -26,11 +26,15 @@ const props = defineProps({
       type="text"
       placeholder="Email"
     />
-    <small
-      v-if="vuelidate.email.$error"
-      class="el-input__message"
-    >{{ vuelidate.email.$errors[0].$message }} 
-    </small>
+    <div class="message-wrapper">
+      <transition name="fade" appear>
+        <small
+          v-if="vuelidate.email.$error"
+          class="el-input__message"
+        >{{ vuelidate.email.$errors[0].$message }}
+        </small>
+      </transition>
+    </div>
   </el-form-item>
 </template>
 

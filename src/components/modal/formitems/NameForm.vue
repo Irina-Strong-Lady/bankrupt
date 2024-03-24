@@ -24,11 +24,15 @@ const props = defineProps({
       placeholder="Имя"          
       autocomplete="off"
     />
-    <small
-      v-if="vuelidate.name.$error"
-      class="el-input__message"
-    >{{ vuelidate.name.$errors[0].$message }}
-    </small>
+    <div class="message-wrapper">
+      <transition name="fade" appear>
+        <small
+          v-if="vuelidate.name.$error"
+          class="el-input__message"
+        >{{ vuelidate.name.$errors[0].$message }}
+        </small>
+      </transition>
+    </div>
   </el-form-item>
 </template>
 

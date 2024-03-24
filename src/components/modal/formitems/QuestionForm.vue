@@ -24,12 +24,14 @@ const props = defineProps({
       autocomplete="off"
       class="el-input-textarea"
     />
-    <div class="el-input-textarea">
-      <small 
-        v-if="vuelidate.question.$error"
-        class="el-textarea__message"
-      >{{ vuelidate.question.$errors[0].$message }}
-      </small>
+    <div class="message-wrapper">
+      <transition name="fade" appear>
+        <small
+          v-if="vuelidate.question.$error"
+          class="el-textarea__message"
+        >{{ vuelidate.question.$errors[0].$message }}
+        </small>
+      </transition>
     </div>
   </el-form-item>
 </template>

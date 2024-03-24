@@ -36,7 +36,7 @@
     margin: 40px 0 20px 50px
   @media screen and (max-width: 400px)
     margin: 40px 0 20px 25px
-  @media screen and (max-width: 200px)
+  @media screen and (max-width: 250px)
     display: none
 .el-form-item:nth-child(2n), .el-form-item:nth-child(3n), .checkbox
   margin: 0 0 75px 547px
@@ -50,12 +50,15 @@
     margin: 0 0 20px 50px
   @media screen and (max-width: 400px)
     margin: 0 0 20px 25px
-  @media screen and (max-width: 200px)
+  @media screen and (max-width: 250px)
     display: none
+:deep(.el-form-item__content)
+  display: grid
 .circle
   position: absolute
   width: 25px
   height: 25px
+  margin-bottom: 1em
   border: 3px solid $white
   border-radius: 50%  
   z-index: 1
@@ -72,6 +75,10 @@
   --el-input-text-color: #FFFFFF
   @media screen and (max-width: 1800px)
     width: 300px
+  @media screen and (max-width: 400px)
+    width: 250px
+  @media screen and (max-width: 300px)
+    width: 200px  
 :deep(.el-input__wrapper)
   background: $table_caption
   border-bottom: 2px solid $border_dialog
@@ -110,8 +117,11 @@
     font-size: 14px 
   @media screen and (max-width: 400px)  
     margin-left: 25px
-    max-width: 90%    
-  @media screen and (max-width: 200px)
+    max-width: 250px    
+  @media screen and (max-width: 300px)  
+    margin-left: 25px
+    max-width: 200px    
+  @media screen and (max-width: 250px)
     display: none
 :deep(.el-textarea__inner)
   width: 825px
@@ -143,7 +153,7 @@
   @media screen and (max-width: 400px)
     margin: 65px 0 0 25px
     max-width: 90%
-  @media screen and (max-width: 200px)
+  @media screen and (max-width: 250px)
     display: none
 :deep(.el-button-dialog > span), .email-label
   font-family: sans-serif
@@ -157,10 +167,15 @@
     font-size: 14px
     text-wrap: wrap
 @mixin input__message
+  max-width: 300px
   font-family: sans-serif 
   font-size: 12px !important
-  font-weight: 600 
+  font-weight: 600
+  text-align: justify 
   color: #dd5e5e !important
+.message-wrapper
+  height: 1em
+  @include input__message
 .el-input__message
   @include input__message
 .el-textarea__message   
@@ -181,3 +196,7 @@
 .email-invisible
   opacity: 0
   transition: all 1s ease-out
+.fade-enter-active, .fade-leave-active
+  transition: opacity .75s ease-in-out
+.fade-enter-from, .fade-leave-to
+  opacity: 0
