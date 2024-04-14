@@ -1,0 +1,27 @@
+  Unsucceful attempt to realize input fields via v-for in ContactsForm.vue
+
+  <el-form-item
+    v-for="(item, index) in labelItem" 
+    :label="item.label" 
+    :required="item.label != labelItem[2].label"
+    :key="item.id"
+  > 
+    <el-input
+      v-model="addQuestionForm[index]"
+      :name="item.input" 
+      :required="item.label != labelItem[2].label"  
+      :type="item == labelItem[3] ? 'textarea' : 'text' && item == labelItem[2] ? 'email' : 'text'"
+      :placeholder="item == labelItem[1] ? '+7 (900) 000-00-00' : '' || item == labelItem[2] ? 'example@email.ru': ''"
+      v-maska :data-maska="item == labelItem[1] ? '+7 (###) ###-##-##' : ''" 
+    />              
+  </el-form-item>
+</template>
+
+A styles from Home.vue components
+
+.fade-enter-active,
+.fade-leave-active
+  transition: opacity 0.5s ease
+.fade-enter-from,
+.fade-leave-to
+  opacity: 0

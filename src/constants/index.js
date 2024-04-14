@@ -1,0 +1,6 @@
+export * from './header'
+export * from './price'
+export * from './contact'
+export * from './settings'
+export * from './services'
+export * from './home'

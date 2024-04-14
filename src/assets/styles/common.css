@@ -1,0 +1,87 @@
+/* advent-pro-300 - cyrillic */
+@font-face {
+  font-display: swap;
+  font-family: 'Advent Pro';
+  font-style: normal;
+  font-weight: 300;
+  src: url("../fonts/advent-pro-v23-cyrillic-300.woff2") format("woff2");
+}
+
+/* advent-pro-regular - cyrillic */
+@font-face {
+  font-display: swap;
+  font-family: 'Advent Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/advent-pro-v23-cyrillic-regular.woff2") format("woff2");
+}
+
+/* advent-pro-500 - cyrillic */
+@font-face {
+  font-display: swap;
+  font-family: 'Advent Pro';
+  font-style: normal;
+  font-weight: 500;
+  src: url("../fonts/advent-pro-v23-cyrillic-500.woff2") format("woff2");
+}
+
+/* advent-pro-600 - cyrillic */
+@font-face {
+  font-display: swap;
+  font-family: 'Advent Pro';
+  font-style: normal;
+  font-weight: 600;
+  src: url("../fonts/advent-pro-v23-cyrillic-600.woff2") format("woff2");
+}
+
+/* advent-pro-700 - cyrillic */
+@font-face {
+  font-display: swap;
+  font-family: 'Advent Pro';
+  font-style: normal;
+  font-weight: 700;
+  src: url("../fonts/advent-pro-v23-cyrillic-700.woff2") format("woff2");
+}
+
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+main, menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1.4;
+  font-family: 'Advent Pro', sans-serif;
+  color: #313030;
+}
+
+a {
+  color: inherit;
+}
+/*# sourceMappingURL=common.css.map */
