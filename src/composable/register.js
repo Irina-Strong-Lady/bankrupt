@@ -31,8 +31,8 @@ export const rulesUser = computed(() => {
 
 export const vuelidateUser = useVuelidate(rulesUser, addRegisterForm)
 
-const addUser = payload => {
-  const path = `${pathURL}auth/register`
+const addUser = (payload, endpoint) => {
+  const path = `${pathURL}auth/${endpoint}`
   const encoded = Buffer.from(`${payload.name}`+':'+`${payload.password}`).toString('base64')
   axios
     .get(path, { headers: {'Authorization': 'Basic ' + encoded, phone: payload.phone, secret: secretPhrase} })
@@ -65,7 +65,26 @@ export const onSubmitUser = async (event) => {
     phone: addRegisterForm.phone,
     password: addRegisterForm.password,
   }
-    addUser(payload)
+  const endpoint = 'register'
+    addUser(payload, endpoint)
+    initForm()
+  } else {
+    warning = 'warning'
+    message = 'Данные введены некорректно. Проверьте все обязательные поля'
+    elMessage(warning, message)
+    }
+}
+export const onSubmitReset = async (event) => {
+  event.preventDefault()
+  const result = await vuelidateUser.value.$validate()
+  if (result) {
+  const payload = {
+    name: addRegisterForm.name,
+    phone: addRegisterForm.phone,
+    password: addRegisterForm.password,
+  }
+  const endpoint = 'reset'
+    addUser(payload, endpoint)
     initForm()
   } else {
     warning = 'warning'

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref } from 'vue'
 import Header from '../components/Header.vue'
 import RegisterForm from './forms/RegisterForm.vue'
 import LoginForm from './forms/LoginForm.vue'
@@ -7,7 +7,9 @@ import { navBarLogoItems, navBarItems } from '../constants'
 
 const registerFormVisible = ref(false)
 
-const loginFormVisible = ref(false);
+const loginFormVisible = ref(false)
+
+const form = 'register';
 
 </script>
 
@@ -31,7 +33,7 @@ const loginFormVisible = ref(false);
     </div>
   </section>
   <section>
-    <RegisterForm v-model="registerFormVisible" />
+    <RegisterForm v-model="registerFormVisible" :form="form" />
     <LoginForm v-model="loginFormVisible" />
   </section>
 </template>

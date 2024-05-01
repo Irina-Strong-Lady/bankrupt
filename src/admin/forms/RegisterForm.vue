@@ -1,31 +1,52 @@
 <script setup>
 import { defineModel } from 'vue'
-import { onSubmitUser, addRegisterForm, vuelidateUser } from '@/composable'
-import { registerPassword, registerConfirm } from '../constants'
+import { onSubmitUser, onSubmitReset, addRegisterForm, vuelidateUser } from '@/composable'
+import { registerPassword, registerConfirm, newPassword, registerButton, resetButton } from '../constants'
 import NameForm from '../../components/modal/formitems/NameForm.vue'
 import PhoneForm from '../../components/modal/formitems/PhoneForm.vue'
 import PasswordForm from '../formitems/PasswordForm.vue'
 
 const registerFormVisible = defineModel()
 
+const props = defineProps({    
+    form: {
+      type: String,
+      required: true
+    }
+});
+
 </script>
 
 <template>
   <el-dialog v-model="registerFormVisible" class="el-dialog-custom">
-    <el-form 
+    <el-form v-if="form == 'register'"
       :model="addRegisterForm"
       @submit="onSubmitUser"
     >
       <NameForm :addForm="addRegisterForm" :vuelidate="vuelidateUser" />
       <PhoneForm :addForm="addRegisterForm" :vuelidate="vuelidateUser" />
-      <PasswordForm :addForm="addRegisterForm" :placeholder="registerPassword" :vuelidate="vuelidateUser" />
+      <PasswordForm :addForm="addRegisterForm" :placeholder="form == 'register' ? registerPassword : newPassword" :vuelidate="vuelidateUser" />
       <PasswordForm :addForm="addRegisterForm" :placeholder="registerConfirm" :vuelidate="vuelidateUser" />
       <el-button 
         native-type="submit" 
         class="el-button-dialog"
         style="margin-top: 50px;"
-      >
-        Зарегистрироваться
+      > {{ form == 'register' ? registerButton : resetButton }}
+      </el-button>
+    </el-form>
+    <el-form v-else-if="form == 'reset'"
+      :model="addRegisterForm"
+      @submit="onSubmitReset"
+    >
+      <NameForm :addForm="addRegisterForm" :vuelidate="vuelidateUser" />
+      <PhoneForm :addForm="addRegisterForm" :vuelidate="vuelidateUser" />
+      <PasswordForm :addForm="addRegisterForm" :placeholder="form == 'register' ? registerPassword : newPassword" :vuelidate="vuelidateUser" />
+      <PasswordForm :addForm="addRegisterForm" :placeholder="registerConfirm" :vuelidate="vuelidateUser" />
+      <el-button 
+        native-type="submit" 
+        class="el-button-dialog"
+        style="margin-top: 50px;"
+      > {{ form == 'register' ? registerButton : resetButton }}
       </el-button>
     </el-form>
   </el-dialog>

@@ -202,3 +202,16 @@
   transition: opacity .75s ease-in-out
 .fade-enter-from, .fade-leave-to
   opacity: 0
+.password-reset
+  display: flex
+  flex-wrap: wrap
+  color: #FFFFFF 
+  font-family: sans-serif 
+  text-decoration: none
+  cursor: pointer
+  padding: 0 !important
+  margin-top: 0
+  @media screen and (max-width: 250px)
+    display: none
+  &:hover, &:focus, &:active
+    color: $border_dialog

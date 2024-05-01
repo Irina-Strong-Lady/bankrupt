@@ -1,11 +1,16 @@
 <script setup>
-import { defineModel } from 'vue'
+import { ref, defineModel } from 'vue'
 import { onSubmitLogin, addLoginForm, vuelidateLogin } from '@/composable'
 import NameForm from '../../components/modal/formitems/NameForm.vue'
 import PasswordForm from '../formitems/PasswordForm.vue'
+import RegisterForm from './RegisterForm.vue'
 import { loginPassword } from '../constants'
 
-const loginFormVisible = defineModel();
+const loginFormVisible = defineModel()
+
+const resetFormVisible = ref(false);
+
+const form = 'reset';
 
 </script>
 
@@ -17,6 +22,12 @@ const loginFormVisible = defineModel();
     >
       <NameForm :addForm="addLoginForm" :vuelidate="vuelidateLogin" />
       <PasswordForm :addForm="addLoginForm" :placeholder="loginPassword" :vuelidate="vuelidateLogin"/>
+      <a 
+        @click="resetFormVisible = true"
+        class="password-reset el-button-dialog"
+      >Забыли пароль?
+      </a>
+      <RegisterForm v-model="resetFormVisible" :form="form" />
       <el-button 
         native-type="submit" 
         class="el-button-dialog"

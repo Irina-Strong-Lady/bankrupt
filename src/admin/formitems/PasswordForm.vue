@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
-import { registerPassword, registerConfirm, loginPassword } from '../constants'
+import { registerPassword, registerConfirm, newPassword, loginPassword } from '../constants'
 
 const props = defineProps({  
     placeholder: {
@@ -41,6 +41,15 @@ const eyeSize = () => width.value > 1200 ? size.value = 30 : size.value = 20;
         name="password" 
         :type="eyes ? 'text' : 'password'"
         :placeholder="registerPassword"
+        autocomplete="off"
+      />
+      <el-input
+        v-else-if="placeholder == newPassword"
+        v-model="addForm.password" 
+        @input="vuelidate.$touch()"
+        name="password" 
+        :type="eyes ? 'text' : 'password'"
+        :placeholder="newPassword"
         autocomplete="off"
       />
       <el-input
