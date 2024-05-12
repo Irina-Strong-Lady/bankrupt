@@ -33,7 +33,7 @@ const addLogin = (path, payload) => {
   loginStore.loginResponse(path, payload, secretPhrase)
   .then(() => {
       elMessage(warning.value, message.value)
-      warning.value == 'success' ? router.push('tables') : undefined
+      warning.value === 'success' ? router.push('tables') : undefined
    })    
   .catch((err) => {
     console.error(err)

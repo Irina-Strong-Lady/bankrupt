@@ -2,7 +2,7 @@ export const registerPassword = 'Придумайте пароль'
 
 export const registerConfirm = 'Подтвердите пароль'
 
-export const loginPassword = 'Пароль'
+export const loginPassword = 'Новый пароль'
 
 export const registerButton = 'Зарегистрироваться'
 

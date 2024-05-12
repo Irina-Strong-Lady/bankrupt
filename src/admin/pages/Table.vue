@@ -1,13 +1,34 @@
 <script setup>
-import router from '../../router'
+import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useLoginStore } from '../../stores/login'
 
+const router = useRouter()
 const toAdmin = () => router.push('admins')
-
 const loginStore = useLoginStore()
 
-const { response } = storeToRefs(loginStore)
+const getTokenData = () => {
+  const { token } = storeToRefs(loginStore)
+  if (!token || token.value.split('.').length < 3) {
+    return false
+  }
+  const data = JSON.parse(atob(token.value.split('.')[1]))
+  return data 
+}
+
+const userData = getTokenData()
+
+const isValidToken = () => {
+  const data = getTokenData()
+  const exp = new Date(data.exp * 1000)
+  const now = new Date()
+  return now < exp
+}
+
+const logout = () => {
+  localStorage.removeItem('login')
+  toAdmin()
+};
 
 </script>
 
@@ -15,15 +36,15 @@ const { response } = storeToRefs(loginStore)
   <section>
     <div class="wrapper">
       <div class="caption-wrapper">
-        <h1 class="caption">Это страница с таблицей</h1>
-        <div v-for="item in response" :key="item.id">
-          <h1 class="caption">{{ item.id }}</h1>
-          <h1 class="caption">{{ item.name }}</h1>
-          <h1 class="caption">{{ item.phone }}</h1>
+        <h1 class="caption">{{ isValidToken() ? 'Это страница с таблицей' : 'Сессия истекла. Необходима авторизация'}}</h1>
+        <div v-if="isValidToken()">
+          <h1 class="caption">{{ userData.id }}</h1>
+          <h1 class="caption">{{ userData.name }}</h1>
+          <h1 class="caption">{{ userData.phone }}</h1>
         </div>
       </div>
-      <el-button class="button" @click.prevent="toAdmin">
-          Админ
+      <el-button class="button" @click.prevent="logout">
+          Выход
       </el-button>
     </div>
   </section>
