@@ -66,6 +66,18 @@ export const onSubmitLogin = async (event) => {
     }
 }
 
+export const getTokenData = () => {
+  const { token } = storeToRefs(loginStore)
+  if (!token || token.value.split('.').length < 3) {
+    return false
+  }
+  const data = JSON.parse(atob(token.value.split('.')[1]))
+  return data 
+}
 
-
-
+export const isValidToken = () => {
+  const data = getTokenData()
+  const exp = new Date(data.exp * 1000)
+  const now = new Date()
+  return now < exp
+}
