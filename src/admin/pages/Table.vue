@@ -5,10 +5,9 @@ import WorkTable from './components/WorkTable.vue'
 
 const toAdmin = () => router.push({name: 'admins'})
 
-const userData = getTokenData()
-
 const logout = () => {
   localStorage.removeItem('token')
+  localStorage.removeItem('claim')
   toAdmin()
 };
 
@@ -38,9 +37,6 @@ const logout = () => {
           <h1 class="caption">{{ isValidToken() ? 'Список текущих заявок' : 'Сессия истекла (необходима авторизация)' }}</h1>
         </div>
         <div v-if="isValidToken()" class="work-table-wrapper">
-          <!-- <h1 class="caption">{{ userData.id }}</h1>
-          <h1 class="caption">{{ userData.name }}</h1>
-          <h1 class="caption">{{ userData.phone }}</h1> -->
           <WorkTable />
         </div>
       </div>

@@ -8,26 +8,24 @@ const claimDataStore = useClaimDataStore()
 const { width } = useWindowSize()
 
 onMounted(() => {
+  try {
   claimDataStore.claimDataResponse()
+  } catch(e) {
+    console.log(e)
+  }
 })
 
 const search = ref('')
+
 const filterTableData = computed(() =>
-  claimDataStore.claim.filter(
+  claimDataStore?.claim?.filter(
     (data) =>
       !search.value ||
       data.fabula.toLowerCase().includes(search.value.toLowerCase())
   )
 )
-const handleEdit = (index, row) => {
-    console.log(index, row)
-  }
-  const handleDelete = (index, row) => {
-    console.log(index, row)
-  }
 
-const tableSize = () => width.value > 767 ? 'large' : 'small'
-const buttonSize = () => width.value > 1200 ? 'large' : 'small';
+const tableSize = () => width.value > 767 ? 'large' : 'small';
 
 </script>
 
@@ -42,28 +40,32 @@ const buttonSize = () => width.value > 1200 ? 'large' : 'small';
     :default-expand-all="true"
     :scrollbar-always-on="true"
   >
-    <el-table-column type="selection" width="55" />
-    <el-table-column label="Номер" prop="id" width="75" />
-    <el-table-column label="Дата и время" prop="timestamp" width="250"/>
-    <el-table-column label="Содержание обращения" prop="fabula" width="500"/>
-    <el-table-column align="center" >
+    <el-table-column label="Номер" prop="id" width="auto" resizeable />
+    <el-table-column label="Дата и время" prop="timestamp" width="auto" resizeable />
+    <el-table-column label="Содержание обращения" prop="fabula" width="auto" resizeable>
+      <template v-slot="scope">
+        <el-input v-model="scope.row.fabula" @focusin="scope._self.emitsOptions.select = true" type="textarea" resizeable></el-input>
+      </template>
+    </el-table-column>
+    <el-table-column label="Исполнитель" width="auto" resizeable/>
+    <el-table-column align="center" width="auto" resizeable>
       <template #header>
         <el-input v-model="search" :size="tableSize()" placeholder="Поиск" />
       </template>
       <template #default="scope">
         <el-button 
-          :size="buttonSize()" 
+          size="small" 
           :style="width >= 1150 ? 'margin-bottom: 0' : 'margin-bottom: .5em'"
           type="warning"
-          @click="handleEdit(scope.$index, scope.row)" 
+          @click.prevent="claimDataStore.updateData(scope.$index)"
           class="button"
         >
-          Редактировать
+          Сохранить
         </el-button>
         <el-button
-          :size="buttonSize()"
+          size="small"
           type="danger"
-          @click="handleDelete(scope.$index, scope.row)"
+          @click.prevent="claimDataStore.deleteData(scope.row.id)"
         >
           Удалить
         </el-button>
