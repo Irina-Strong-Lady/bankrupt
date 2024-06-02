@@ -30,6 +30,13 @@ const tableSize = () => width.value > 767 ? 'large' : 'small';
 </script>
 
 <template #default>
+  <div class="claim-style">
+    {{ claimDataStore.claim.length == 0 ? 
+    'Заявки отсутствуют' : 
+    `Количество заявок в работе: ${claimDataStore.claim.length}`}}
+    <span class="total-wrapper">
+    </span>
+  </div>
   <el-table 
     :data="filterTableData" 
     style="width: 100%" 
@@ -38,16 +45,33 @@ const tableSize = () => width.value > 767 ? 'large' : 'small';
     :border="true" 
     :fit="true" 
     :default-expand-all="true"
-    :scrollbar-always-on="true"
+    :scrollbar-always-on="true"           
   >
     <el-table-column label="Номер" prop="id" width="auto" resizeable />
     <el-table-column label="Дата и время" prop="timestamp" width="auto" resizeable />
     <el-table-column label="Содержание обращения" prop="fabula" width="auto" resizeable>
       <template v-slot="scope">
-        <el-input v-model="scope.row.fabula" @focusin="scope._self.emitsOptions.select = true" type="textarea" resizeable></el-input>
+        <el-input v-model="scope.row.fabula" @focus.prevent="claimDataStore.checkActive = false" type="textarea" resizeable></el-input>
       </template>
     </el-table-column>
-    <el-table-column label="Исполнитель" width="auto" resizeable/>
+    <el-table-column label="Исполнитель" width="auto" resizeable>
+      <template v-slot="scope">
+        <el-select 
+          v-model="scope.row.user.name" 
+          @focus.prevent="claimDataStore.checkActive = false" 
+          :placeholder="scope.row.executor"
+          filterable
+          allow-create
+        >
+          <el-option 
+            v-for="item in scope.row.user" 
+            :key="item.id" 
+            :value="item.name"
+            @click="claimDataStore.userId=item.id"
+          />
+        </el-select>
+      </template>
+    </el-table-column>
     <el-table-column align="center" width="auto" resizeable>
       <template #header>
         <el-input v-model="search" :size="tableSize()" placeholder="Поиск" />
@@ -57,13 +81,14 @@ const tableSize = () => width.value > 767 ? 'large' : 'small';
           size="small" 
           :style="width >= 1150 ? 'margin-bottom: 0' : 'margin-bottom: .5em'"
           type="warning"
-          @click.prevent="claimDataStore.updateData(scope.$index)"
+          @click.prevent="claimDataStore.updateData(scope.$index); claimDataStore.checkActive = true"
           class="button"
         >
           Сохранить
         </el-button>
         <el-button
           size="small"
+          :style="width >= 1150 ? 'margin-bottom: 0' : 'margin-bottom: .5em'"
           type="danger"
           @click.prevent="claimDataStore.deleteData(scope.row.id)"
         >
@@ -76,6 +101,10 @@ const tableSize = () => width.value > 767 ? 'large' : 'small';
 
 <style lang="sass" scoped>
 @import '@/assets/styles/variables'
+.claim-style, .total-wrapper
+  color: $white
+  margin-bottom: 1em
+  font-family: sans-serif
 :global(.el-table)
   --el-table-border: 2px solid var(--el-table-border-color)
 :deep(.el-button)

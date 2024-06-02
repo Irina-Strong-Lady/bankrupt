@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia'
 import { pathURL, secretPhrase } from '../constants'
 import axios from 'axios'
-import { ref, watch, computed } from 'vue'
+import { ref, watch } from 'vue'
 import { elMessage } from '@/composable'
 
 export const useClaimDataStore = defineStore('claimDataStore', () => {
   const claim = ref([])
-  
+  const userId = ref('')
+    
   const claimDataResponse = async () => {
     const path = `${pathURL}questions_list`
     const data = await axios
@@ -26,13 +27,13 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
       claim.value = JSON.parse(localStorage.getItem('claim'))._value
       }
     )
-      claim.value = data?.data?.response 
-  } 
+      claim.value = data?.data?.response
+      // claim.value.forEach(el => el['user'] = perms.data.response) 
+  }
 
   const updateData = async (idx) => {
     const id = claim.value[idx].id
-    const fabula = { fabula: claim.value[idx].fabula } 
-    console.log(claim.value[idx].fabula)   
+    const fabula = { fabula: claim.value[idx].fabula, id: userId.value }
     const path = `${pathURL}question_update/${id}`
     const data = await axios
     .put(path, fabula, {headers: {secret: secretPhrase}})
@@ -81,12 +82,9 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
     deleteClaim(id)
   }
 
-  const checkActiveCell = select => {if (select) {
-    return true
-    } else {return false }
-  }
+  const checkActive = ref(true)
 
-  setInterval(claimDataResponse, 30000)
+  setInterval(() => { checkActive.value ? claimDataResponse() : console.log('Table update is off')}, 10000)
 
   watch(() => claim, (state) => {
     localStorage.setItem('claim', JSON.stringify(state))      
@@ -94,9 +92,11 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
  
   return {
     claim,
+    userId,
+    checkActive,
     claimDataResponse,
     updateData,
     deleteData,
-    deleteClaim
+    deleteClaim 
   }
 })
