@@ -25,31 +25,39 @@
 :global(.el-dialog__headerbtn .el-dialog__close)
   color: $white
 .el-form-item:first-child
-  margin: 100px 0 75px 547px
+  margin: 100px 0 75px 750px
   @media screen and (max-width: 1800px)
-    margin: 65px 0 30px 450px
+    margin: 65px 0 0 600px
+  @media screen and (max-width: 1500px)
+    margin: 65px 0 0 500px
   @media screen and (max-width: 1200px)
-    margin: 65px 0 30px 350px
+    margin: 65px 0 0 400px
   @media screen and (max-width: 1000px)
-    margin: 65px 0 30px 200px
+    margin: 65px 0 0 225px
   @media screen and (max-width: 767px)
-    margin: 40px 0 20px 50px
+    margin: 65px 0 0 200px
   @media screen and (max-width: 400px)
-    margin: 40px 0 20px 25px
+    margin: 65px 0 0 40px
+  @media screen and (max-width: 300px)
+    margin: 65px 0 0 30px
   @media screen and (max-width: 250px)
     display: none
 .el-form-item:nth-child(2n), .el-form-item:nth-child(3n), .checkbox
-  margin: 0 0 75px 547px
+  margin: 0 0 75px 750px
   @media screen and (max-width: 1800px)
-    margin: 0 0 30px 450px
+    margin: 65px 0 0 600px
+  @media screen and (max-width: 1500px)
+    margin: 65px 0 0 500px
   @media screen and (max-width: 1200px)
-    margin: 0 0 30px 350px
+    margin: 65px 0 0 400px
   @media screen and (max-width: 1000px)
-    margin: 0 0 30px 200px
+    margin: 65px 0 0 225px
   @media screen and (max-width: 767px)
-    margin: 0 0 20px 50px
+    margin: 65px 0 0 200px
   @media screen and (max-width: 400px)
-    margin: 0 0 20px 25px
+    margin: 65px 0 0 40px
+  @media screen and (max-width: 300px)
+    margin: 65px 0 0 30px
   @media screen and (max-width: 250px)
     display: none
 :deep(.el-form-item__content)
@@ -76,7 +84,7 @@
   @media screen and (max-width: 1800px)
     width: 300px
   @media screen and (max-width: 400px)
-    width: 250px
+    width: 275px
   @media screen and (max-width: 300px)
     width: 200px  
 :deep(.el-input__wrapper)
@@ -139,20 +147,28 @@
     color: $white
   @include textarea__media
 :deep(.el-button-dialog)
-  margin: 115px 0 0 547px
-  padding: 40px 75px
+  display: flex
+  justify-content: center
+  margin: 115px 0 0 750px
+  width: 375px
   @media screen and (max-width: 1800px)
-    margin: 65px 0 0 450px
-    padding: 25px 50px
+    margin: 65px 0 0 600px
+    width: 300px
+  @media screen and (max-width: 1500px)
+    margin: 65px 0 0 500px
+    width: 300px
   @media screen and (max-width: 1200px)
-    margin: 65px 0 0 350px
+    margin: 65px 0 0 400px
   @media screen and (max-width: 1000px)
-    margin: 65px 0 0 200px
+    margin: 65px 0 0 225px
   @media screen and (max-width: 767px)
-    margin: 65px 0 0 50px
+    margin: 65px 0 0 200px
   @media screen and (max-width: 400px)
-    margin: 65px 0 0 25px
-    max-width: 90%
+    margin: 65px 0 0 40px
+    width: 275px
+  @media screen and (max-width: 300px)
+    margin: 65px 0 0 30px
+    width: 200px
   @media screen and (max-width: 250px)
     display: none
 :deep(.el-button-dialog > span), .email-label

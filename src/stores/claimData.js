@@ -7,6 +7,11 @@ import { elMessage } from '@/composable'
 export const useClaimDataStore = defineStore('claimDataStore', () => {
   const claim = ref([])
   const userId = ref('')
+  const questionId = ref(null)
+  const rowIndex = ref(null)
+  const checked = ref(false)
+  let warning
+  let message
     
   const claimDataResponse = async () => {
     const path = `${pathURL}questions_list`
@@ -31,10 +36,11 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
       // claim.value.forEach(el => el['user'] = perms.data.response) 
   }
 
-  const updateData = async (idx) => {
-    const id = claim.value[idx].id
+  const updateData = async (idx) => {    
+    if (checked.value) {
+    const question_id = claim.value[idx].question_id
     const fabula = { fabula: claim.value[idx].fabula, id: userId.value }
-    const path = `${pathURL}question_update/${id}`
+    const path = `${pathURL}question_update/${question_id}`
     const data = await axios
     .put(path, fabula, {headers: {secret: secretPhrase}})
     .catch(function(error) {
@@ -49,17 +55,23 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
       }
       console.log(error.config)
     })
-    
-    let warning = data?.data?.warning
-    let message = data?.data?.message
+    warning = data?.data?.warning
+    message = data?.data?.message
+    elMessage(warning, message) 
+  } else 
+  {
+    warning = 'warning'
+    message = 'Выберите фабулу'
     elMessage(warning, message)
   }
+}
 
-  const deleteClaim = (id) => 
-    claim.value = claim.value.filter(el => el.id != id)
+  const deleteClaim = (question_id) => 
+    claim.value = claim.value.filter(el => el.question_id != question_id)
 
-  const deleteData = async (id) => {
-    const path = `${pathURL}question_update/${id}`
+  const deleteData = async (question_id) => {
+    if (checked.value) {
+    const path = `${pathURL}question_update/${question_id}`
     const data = await axios
     .delete(path, {headers: {secret: secretPhrase}})
     .catch(function(error) {
@@ -75,12 +87,17 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
       console.log(error.config)
     })
 
-    let warning = data?.data?.warning
-    let message = data?.data?.message
+    warning = data?.data?.warning
+    message = data?.data?.message
     elMessage(warning, message)
-
-    deleteClaim(id)
+    deleteClaim(question_id) 
+  } else 
+  {
+    warning = 'warning'
+    message = 'Выберите фабулу'
+    elMessage(warning, message)
   }
+}
 
   const checkActive = ref(true)
 
@@ -94,6 +111,9 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
     claim,
     userId,
     checkActive,
+    questionId,
+    rowIndex,
+    checked,
     claimDataResponse,
     updateData,
     deleteData,
