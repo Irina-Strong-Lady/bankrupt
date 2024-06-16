@@ -15,26 +15,21 @@ onMounted(() => {
   }
 })
 
-const getRowIndex = (idx) => claimDataStore.rowIndex = idx
-
-const getQuestionId = (id) => claimDataStore.questionId = id
-
-const changeCheckedValue = () => { 
-  claimDataStore.checked = !claimDataStore.checked 
-  claimDataStore.checkActive = !claimDataStore.checkActive
-}
-
 const search = ref('')
 
 const filterTableData = computed(() =>
   claimDataStore?.claim?.filter(
-    (data) =>
+    (data) => data.archive === false))
+  claimDataStore?.claim?.filter(
+    (data) => 
       !search.value ||
-      data.fabula.toLowerCase().includes(search.value.toLowerCase())
+      data.fabula.toLowerCase().includes(search.value.toLowerCase()) 
   )
-)
 
-const tableSize = () => width.value > 767 ? 'large' : 'small';
+
+const tableSize = () => width.value > 767 ? 'large' : 'small'
+
+const deleteDialog = ref(false);
 
 </script>
 
@@ -49,10 +44,16 @@ const tableSize = () => width.value > 767 ? 'large' : 'small';
       <el-button 
         size="small" 
         :style="width >= 1150 ? 'margin-bottom: 0' : 'margin-bottom: .5em'"
+        type="primary"
+        @click.prevent="claimDataStore.archiveData()"
+      >
+          В архив
+        </el-button>
+      <el-button 
+        size="small" 
+        :style="width >= 1150 ? 'margin-bottom: 0' : 'margin-bottom: .5em'"
         type="warning"
-        @click.prevent="claimDataStore.updateData(claimDataStore.rowIndex); 
-          claimDataStore.checkActive = true"
-        class="button"
+        @click.prevent="claimDataStore.updateData"
       >
           Сохранить
         </el-button>
@@ -60,7 +61,7 @@ const tableSize = () => width.value > 767 ? 'large' : 'small';
           size="small"
           :style="width >= 1150 ? 'margin-bottom: 0' : 'margin-bottom: .5em'"
           type="danger"
-          @click.prevent="claimDataStore.deleteData(claimDataStore.questionId); claimDataStore.checkActive = true"
+          @click.prevent="deleteDialog = true" 
         >
           Удалить
       </el-button>
@@ -78,10 +79,10 @@ const tableSize = () => width.value > 767 ? 'large' : 'small';
   >
     <el-table-column width="55">
       <template v-slot="scope">
-        <el-checkbox 
-          @click="getRowIndex(scope.$index); changeCheckedValue(); getQuestionId(scope.row.question_id)" 
-          :checked="claimDataStore.checked"
-        ></el-checkbox>
+          <el-checkbox 
+            @input="claimDataStore.checkItem(scope.row.id, $event.target.checked)" 
+            :checked="claimDataStore.selectedItems.includes(scope.row.id)"            
+          ></el-checkbox>
       </template>
     </el-table-column>
     <el-table-column label="Номер" prop="id" width="auto" resizeable />
@@ -90,7 +91,7 @@ const tableSize = () => width.value > 767 ? 'large' : 'small';
       <template v-slot="scope">
         <el-input 
           v-model="scope.row.fabula"
-          :disabled="!claimDataStore.checked" 
+          :disabled="!claimDataStore.selectedItems.includes(scope.row.id)"
           type="textarea" 
           resizeable
         ></el-input>
@@ -101,7 +102,7 @@ const tableSize = () => width.value > 767 ? 'large' : 'small';
         <el-select 
           v-model="scope.row.user.name" 
           :placeholder="scope.row.executor"
-          :disabled="!claimDataStore.checked"
+          :disabled="!claimDataStore.selectedItems.includes(scope.row.id)"
           filterable
           allow-create
         >
@@ -109,7 +110,7 @@ const tableSize = () => width.value > 767 ? 'large' : 'small';
             v-for="item in scope.row.user" 
             :key="item.id" 
             :value="item.name"
-            @click="claimDataStore.userId=item.id" 
+            @click="claimDataStore.getUserId(scope.row.question_id, item.id)"
           />
         </el-select>
       </template>
@@ -120,6 +121,27 @@ const tableSize = () => width.value > 767 ? 'large' : 'small';
       </template>
     </el-table-column>
   </el-table>
+  <el-dialog 
+    v-model="deleteDialog"
+    title="Удалить" 
+    width="500" 
+    draggable
+  >
+    <span>{{ deleteDialog ? 
+      'Вы уверены, что хотите удалить выбранные поля?' : 
+      'Сохранить выбранные поля?' }}
+    </span>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="deleteDialog = false">Отменить</el-button>
+        <el-button type="danger" @click="claimDataStore.deleteData(); deleteDialog = false">
+          {{ deleteDialog ? 
+            'Удалить' : 
+            'Сохранить' }}
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <style lang="sass" scoped>
@@ -132,11 +154,13 @@ const tableSize = () => width.value > 767 ? 'large' : 'small';
   font-family: sans-serif
 :global(.el-table)
   --el-table-border: 2px solid var(--el-table-border-color)
+:deep(.el-button)
+  @media screen and (max-width: 600px)
+    margin-left: 0
 :deep(.el-button > span)
   color: $text_photo
   font-size: 16px
   @media screen and (max-width: 767px)
     font-family: sans-serif
-    font-size: 14px 
-   
+    font-size: 14px    
 </style>

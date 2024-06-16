@@ -45,19 +45,19 @@
 .el-form-item:nth-child(2n), .el-form-item:nth-child(3n), .checkbox
   margin: 0 0 75px 750px
   @media screen and (max-width: 1800px)
-    margin: 65px 0 0 600px
+    margin: 65px 0 15px 600px
   @media screen and (max-width: 1500px)
-    margin: 65px 0 0 500px
+    margin: 65px 0 15px 500px
   @media screen and (max-width: 1200px)
-    margin: 65px 0 0 400px
+    margin: 65px 0 15px 400px
   @media screen and (max-width: 1000px)
-    margin: 65px 0 0 225px
+    margin: 65px 0 15px 225px
   @media screen and (max-width: 767px)
-    margin: 65px 0 0 200px
+    margin: 65px 0 15px 200px
   @media screen and (max-width: 400px)
-    margin: 65px 0 0 40px
+    margin: 25px 0 15px 40px
   @media screen and (max-width: 300px)
-    margin: 65px 0 0 30px
+    margin: 65px 0 15px 30px
   @media screen and (max-width: 250px)
     display: none
 :deep(.el-form-item__content)
@@ -107,34 +107,38 @@
     font-size: 14px
 @mixin textarea__media
   @media screen and (max-width: 1800px)
-    margin-left: 450px 
+    margin-left: 600px 
     width: 500px
     height: 200px
     font-size: 20px
+  @media screen and (max-width: 1500px)
+    margin-left: 500px
+    width: 450px
+    height: 200px
+    font-size: 18px
   @media screen and (max-width: 1200px)
     width: 400px
     height: 175px
-    margin-left: 350px
+    margin-left: 400px
     font-size: 16px 
   @media screen and (max-width: 1000px)  
-    margin-left: 200px 
+    margin-left: 225px 
   @media screen and (max-width: 767px)  
-    margin-left: 50px
+    margin-left: 200px
     width: 300px
     padding: 15px 0 0 25px
     font-size: 14px 
   @media screen and (max-width: 400px)  
-    margin-left: 25px
-    max-width: 250px    
+    margin-left: 40px
+    max-width: 275px    
   @media screen and (max-width: 300px)  
-    margin-left: 25px
+    margin-left: 30px
     max-width: 200px    
   @media screen and (max-width: 250px)
     display: none
 :deep(.el-textarea__inner)
   width: 825px
   height: 315px
-  margin-left: 547px
   padding: 25px 0 0 50px
   --el-input-text-color: #FFFFFF
   background: $table_caption
@@ -221,12 +225,13 @@
 .password-reset
   display: flex
   flex-wrap: wrap
+  justify-content: flex-start
   color: #FFFFFF 
   font-family: sans-serif 
   text-decoration: none
   cursor: pointer
   padding: 0 !important
-  margin-top: 0
+  margin-top: 20px
   @media screen and (max-width: 250px)
     display: none
   &:hover, &:focus, &:active
