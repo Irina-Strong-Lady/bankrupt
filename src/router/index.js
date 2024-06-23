@@ -32,6 +32,11 @@ const router = createRouter({
       path: '/tables',
       name: 'tables',
       component: () => import('../admin/pages/Table.vue')
+    },    
+    {
+      path: '/profiles',
+      name: 'profiles',
+      component: () => import('../admin/pages/UserProfile.vue')
     }    
   ]
 })

@@ -8,6 +8,8 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
   const claim = ref([])
   const userId = ref({})
   const selectedItems = ref([])
+  const archiveArray = ref([])
+  const switchArchive = ref(false)
   let warning
   let message
     
@@ -27,7 +29,7 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
       }
       console.log(error.config)       
       elMessage('warning', 'Отсутствует соединение с сервером')
-      claim.value = JSON.parse(localStorage.getItem('claim'))._value
+      claim.value = JSON.parse(localStorage.getItem('claim'))._value      
       }
     )
       claim.value = data?.data?.response
@@ -108,10 +110,11 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
   
   const archiveData = () => {
     if (selectedItems.value.length > 0) {
-      selectedItems.value.forEach(async (el) => {
-        const question_id = claim.value[el-1]?.question_id
-        const path = `${pathURL}question_update/${question_id}`
-        const archive = { archive: !el.archive }
+      selectedItems.value.forEach(async (el) => {        
+        const questionId = claim.value[el-1]?.question_id
+        const archiveData = claim.value[el-1]?.archive
+        const path = `${pathURL}question_update/${questionId}`
+        const archive = { archive: !archiveData }       
         const data = await axios
         .put(path, archive, {headers: {secret: secretPhrase}})
         .catch(function(error) {
@@ -130,7 +133,7 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
         warning = data?.data?.warning
         message = data?.data?.message
         elMessage(warning, message)
-        deleteClaim(question_id)
+        deleteClaim(questionId)
         selectedItems.value = []
       })
       } else {
@@ -153,11 +156,17 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
   watch(() => claim, (state) => {
     localStorage.setItem('claim', JSON.stringify(state))      
     }, {deep: true})  
+  
+  watch(() => switchArchive, (state) => {
+    localStorage.setItem('switch', JSON.stringify(state))      
+    }, {deep: true})  
  
   return {
     claim,
     userId,
     selectedItems,
+    archiveArray,
+    switchArchive,
     claimDataResponse,
     updateData,
     deleteData,

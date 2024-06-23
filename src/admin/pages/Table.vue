@@ -1,9 +1,17 @@
 <script setup>
 import router from '@/router'
-import { isValidToken, getTokenData } from '@/composable'
+import { isValidToken } from '@/composable'
 import WorkTable from './components/WorkTable.vue'
+import { elMessage } from '@/composable';
+
+let warning = 'warning'
+let message = 'Действие токена истекло'
 
 const toAdmin = () => router.push({name: 'admins'})
+
+const toProfile = ()=> router.push({name: 'profiles'})
+
+const messageReport = () => isValidToken() ? undefined : elMessage(warning, message)
 
 const logout = () => {
   localStorage.removeItem('token')
@@ -18,7 +26,10 @@ const logout = () => {
     <div class="wrapper">
       <div class="caption-wrapper">
         <div v-if="isValidToken()" class="user-wrapper">
-          <div class="user-img" @click.prevent="toAdmin()">
+          <div 
+            class="user-img" 
+            @click.prevent="isValidToken() ? toProfile() : toAdmin(); 
+                            isValidToken() ? undefined : messageReport()">
             <img src="/src/assets/img/png/user-img.png" alt="user-img" class="user-pic">
           </div>
           <div class="exit-wrapper">
@@ -34,7 +45,7 @@ const logout = () => {
           </div>
         </div>
         <div class="title-wrapper">
-          <h1 class="caption">{{ isValidToken() ? 'Список текущих заявок' : 'Сессия истекла (необходима авторизация)' }}</h1>
+          <h1 class="caption">{{ isValidToken() ? undefined : 'Сессия истекла (необходима авторизация)' }}</h1>
         </div>
         <div v-if="isValidToken()" class="work-table-wrapper">
           <WorkTable />
@@ -52,23 +63,29 @@ const logout = () => {
   width: 100%
   height: 100%
   margin: 0
-  padding: 20px
 .caption-wrapper
+  position: relative
   display: flex
   align-items: center
   flex-wrap: wrap
   flex-direction: column
+  background: $table_caption
 .caption
   color: $white
   font-family: sans-serif
   font-size: 24px
   margin-bottom: 1rem
+  @media screen and (max-width: 1200px)
+    font-size: 20px
+  @media screen and (max-width: 767px)
+    font-size: 16px
 .user-wrapper
   display: flex
   flex-wrap: wrap
   justify-content: flex-end
   width: 100%
   height: 100%
+  padding: 20px 20px 0 0
 .user-img
   display: block
   padding: .25rem
@@ -101,4 +118,5 @@ const logout = () => {
   text-align: center
 .work-table-wrapper
   width: 100%
+  padding: 20px
 </style>
