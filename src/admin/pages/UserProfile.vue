@@ -1,9 +1,16 @@
 <script setup>
 import router from '@/router'
+import { ref } from 'vue'
 import { isValidToken, getTokenData } from '@/composable'
-import { ArrowDown } from '@element-plus/icons-vue'
+import UserProfileForm from '@/admin/forms/UserProfileForm.vue'
 
-const userData = getTokenData();
+const userData = getTokenData()
+
+const buttonVisible = ref(false)
+
+const isChecked = () => buttonVisible.value = !buttonVisible.value
+
+const userFormVisible = ref(false);
 
 </script>
 
@@ -13,8 +20,8 @@ const userData = getTokenData();
       <div class="btn-img" 
             @click.prevent="isValidToken() ? 
             router.push({name: 'tables'}) : 
-            router.push({name: 'admins'}); 
-            console.dir(userData)">
+            router.push({name: 'admins'})"
+      >
         <img src="/src/assets/img/png/back-btn.png" alt="back-btn" class="btn" />
       </div>
       <div class="caption-wrapper">
@@ -22,33 +29,43 @@ const userData = getTokenData();
       </div>
       <div class="user-wrapper">
         <div class="user-info">
-          <el-dropdown class="dropdown-wrapper">
-            <span class="el-dropdown-link">
-              Меню
-              <el-icon class="el-icon--right">
-                <arrow-down :style="'color: #91C9FF; display: flex; justify-content: flex-end'"/>
-              </el-icon>
-            </span>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>Action 1</el-dropdown-item>
-                <el-dropdown-item>Action 2</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
           <tbody>
             <tr>
-              <th scope="row">Имя:</th>
-              <td>{{ userData.name }}</td>
+              <div class="row-wrapper">
+                <th>Имя:</th>
+                <td>{{ userData.name }}</td>
+              </div>
             </tr>
             <tr>
-              <th scope="row">Телефон:</th>
-              <td>{{ userData.phone }}</td>
+              <div class="row-wrapper">
+                <th>Телефон:</th>
+                <td>{{ userData.phone }}</td>
+              </div>
             </tr>
-          </tbody>          
+          </tbody>
+          <div class="checkbox-wrapper">
+            <el-checkbox 
+            @input="isChecked"
+            size="large"
+            >
+              <span>Обновить данные пользователя</span>
+            </el-checkbox>
+          </div>         
+          <transition name="fade">
+            <div v-if="buttonVisible" :class="['btn-wrapper', { buttonVisible : 'btn-transition'}]">
+              <el-button 
+                @click.prevent="userFormVisible = true"
+              >
+                Обновить
+              </el-button>
+            </div> 
+          </transition>         
         </div>  
       </div>
     </div>    
+  </section>
+  <section>
+    <UserProfileForm v-model="userFormVisible" />
   </section>
 </template>
 
@@ -59,7 +76,7 @@ const userData = getTokenData();
   background: $table_caption
   width: 100%
   height: 100%
-  margin: 0
+  margin: 0  
 .btn-img
   margin: 20px 0 0 20px
 .btn
@@ -71,41 +88,38 @@ const userData = getTokenData();
     transition: .75s
 .caption-wrapper
   display: flex
-  justify-content: center
+  justify-content: flex-start
+  margin-top: 20px
+  margin-left: 20px
+  @media screen and (max-width: 265px)
+    display: none
 .caption  
   font-size: 24px
   font-weight: 600
   color: $white
+.btn-wrapper
+  margin: 1em 0 1em 0
+.btn-transition
+  transition: margin-right 2s ease-in-out
+.el-button
+  background: $text_photo
+:deep(.el-button > span)
+  font-size: 18px
+  color: $white
 .user-wrapper
   display: flex
-  width: 20%
-  height: 50%
-  margin: 0 0 0 20px
-.el-dropdown
-  border: 1px solid $border_dialog
-.el-dropdown > span
-  color: $white
   width: 100%
-  text-align: center
-  font-size: 18px
-  font-weight: 600
-  &:hover, &:focus, &active    
-    border: 1px solid $border_dialog
-.dropdown-wrapper
-  display: flex
-  justify-content: center
-  margin-top: 20px
-  margin-bottom: 20px
-  border: none  
-.example-showcase .el-dropdown-link
-  cursor: pointer
-  color: var(--el-color-primary)
-  display: flex
-  align-items: center
-
+  height: 50%
+  margin-left: 20px
+  @media screen and (max-width: 265px)
+    display: none
 .user-info
   margin: 0
-th, td
+.row-wrapper
+  margin-top: 1em
+.checkbox-wrapper
+  margin-top: 1.5em
+th, td, span
   display: inline-block
   color: $white
   font-size: 18px
@@ -113,4 +127,10 @@ th, td
   color: $white
   &:last-child
     margin-left: 10px
+span 
+  color: $text_photo
+.fade-enter-active, .fade-leave-active 
+  transition: opacity 1s ease
+.fade-enter-from,.fade-leave-to 
+  opacity: 0
 </style>

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, watch, ref, onBeforeMount } from 'vue'
+import { computed, ref, onBeforeMount } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { useClaimDataStore } from '@/stores/claimData'
 

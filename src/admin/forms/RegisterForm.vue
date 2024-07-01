@@ -18,13 +18,13 @@ const props = defineProps({
 </script>
 
 <template>
-  <el-dialog v-model="registerFormVisible" class="el-dialog-custom">
+  <el-dialog v-model="registerFormVisible">
     <el-form v-if="form == 'register'"
       :model="addRegisterForm"
       @submit="onSubmitUser"
     >
       <NameForm :addForm="addRegisterForm" :vuelidate="vuelidateUser" />
-      <PhoneForm :addForm="addRegisterForm" :vuelidate="vuelidateUser" />
+      <PhoneForm :addForm="addRegisterForm" :vuelidate="vuelidateUser" :placeholder="'Телефон'"/>
       <PasswordForm :addForm="addRegisterForm" :placeholder="form == 'register' ? registerPassword : newPassword" :vuelidate="vuelidateUser" />
       <PasswordForm :addForm="addRegisterForm" :placeholder="registerConfirm" :vuelidate="vuelidateUser" />
       <el-button 

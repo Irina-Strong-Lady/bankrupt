@@ -19,7 +19,7 @@ const checked = ref(false);
       @submit="onSubmitVisitor"
     >
       <NameForm :addForm="addQuestionForm" :vuelidate="vuelidateVisitor" />
-      <PhoneForm :addForm="addQuestionForm" :vuelidate="vuelidateVisitor" />
+      <PhoneForm :addForm="addQuestionForm" :vuelidate="vuelidateVisitor" :placeholder="'Телефон'"/>
       <el-checkbox 
         v-model="checked" 
         size="large"

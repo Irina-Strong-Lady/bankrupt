@@ -9,6 +9,10 @@ const props = defineProps({
     vuelidate: {
       type: Object,
       required: true
+    },
+    placeholder: {
+      type: String,
+      required: true
     }
 });
 
@@ -18,14 +22,24 @@ const props = defineProps({
   <el-form-item class="el-form-item-2">
     <div class="circle"></div>
     <el-input
+      v-if="placeholder == 'Телефон'"
       @input="vuelidate.$touch()" 
       v-model="addForm.phone" 
       v-maska :data-maska="'+7 (###) ###-##-##'"
       name="phone"
-      placeholder="Телефон"
+      :placeholder="placeholder"
       autocomplete="off"
     />
-    <div class="message-wrapper">
+    <el-input
+      v-else-if="placeholder == 'Новый телефон'"
+      @input="vuelidate.$touch()" 
+      v-model="addForm.newPhone" 
+      v-maska :data-maska="'+7 (###) ###-##-##'"
+      name="phone"
+      :placeholder="placeholder"
+      autocomplete="off"
+    />
+    <div v-show="placeholder == 'Телефон'" class="message-wrapper">
       <transition name="fade" appear>
         <small
           v-if="vuelidate.phone.$error"

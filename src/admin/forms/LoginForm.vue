@@ -15,7 +15,7 @@ const form = 'reset';
 </script>
 
 <template>
-  <el-dialog v-model="loginFormVisible" class="el-dialog-custom">
+  <el-dialog v-model="loginFormVisible">
     <el-form 
       :model="addLoginForm"
       @submit="onSubmitLogin"
