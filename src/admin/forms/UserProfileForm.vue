@@ -1,6 +1,6 @@
 <script setup>
 import { defineModel } from 'vue'
-import { onSubmitProfile, addProfileForm, vuelidateProfile } from '@/composable'
+import { onSubmitProfile, addProfileForm, vuelidateProfile, profileResponse } from '@/composable'
 import NameForm from '@/components/modal/formitems/NameForm.vue'
 import PhoneForm from '@/components/modal/formitems/PhoneForm.vue'
 
@@ -17,7 +17,8 @@ const userFormVisible = defineModel();
       <NameForm :addForm="addProfileForm" :vuelidate="vuelidateProfile" />
       <PhoneForm :addForm="addProfileForm" :vuelidate="vuelidateProfile" :placeholder="'Телефон'"/>
       <PhoneForm :addForm="addProfileForm" :vuelidate="vuelidateProfile" :placeholder="'Новый телефон'"/>
-      <el-button        
+      <el-button
+        @click="profileResponse"        
         native-type="submit" 
         class="el-button-dialog"
         style="margin-top: 50px;"

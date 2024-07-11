@@ -1,9 +1,12 @@
 import axios from 'axios'
+import router from '@/router'
 import { elMessage } from './message'
 import { reactive, computed } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { pathURL, secretPhrase } from '../constants'
 import { required, helpers, minLength } from '@vuelidate/validators'
+
+const profile = axios.create()
 
 let warning = ''
 let message = ''
@@ -23,7 +26,7 @@ export const vuelidateProfile = useVuelidate(rulesProfile, addProfileForm)
 
 const addProfile = (payload) => {
   const path = `${pathURL}auth/profile`
-  axios
+  profile
     .put(path, payload, { headers: {secret: secretPhrase} })
     .then((res) => {
       warning = res.data.warning
@@ -61,3 +64,11 @@ export const onSubmitProfile = async (event) => {
     elMessage(warning, message)
     }
 }
+
+export const profileResponse = profile.interceptors.response.use(function (response) {
+  if (response?.data.message != 'Пользователь не существует') 
+  { router.push({name: 'admins'}) }
+    return response;
+  }, function (error) {
+    return Promise.reject(error);
+})
