@@ -27,10 +27,13 @@ const logout = () => {
       <div class="caption-wrapper">
         <div v-if="isValidToken()" class="user-wrapper">
           <div 
-            class="user-img" 
+            class="user-img"
             @click.prevent="isValidToken() ? toProfile() : toAdmin(); 
                             isValidToken() ? undefined : messageReport()">
-            <img src="/src/assets/img/png/user-img.png" alt="user-img" class="user-pic">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+              <path fill="currentColor" d="M288 320a224 224 0 1 0 448 0 224 224 0 1 0-448 0m544 608H160a32 32 0 0 1-32-32v-96a160 160 0 0 1 160-160h448a160 160 0 0 1 160 160v96a32 32 0 0 1-32 32z">
+              </path>
+            </svg>
           </div>
           <div class="exit-wrapper">
             <a @click.prevent="logout" class="admin-logout">Выход</a>
@@ -38,7 +41,10 @@ const logout = () => {
         </div>
         <div v-else class="user-wrapper">
           <div class="user-img">
-            <img src="/src/assets/img/png/user-img.png" alt="user-img" class="user-pic">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+              <path fill="currentColor" d="M288 320a224 224 0 1 0 448 0 224 224 0 1 0-448 0m544 608H160a32 32 0 0 1-32-32v-96a160 160 0 0 1 160-160h448a160 160 0 0 1 160 160v96a32 32 0 0 1-32 32z">
+              </path>
+            </svg>
           </div>
           <div class="exit-wrapper">
           <a @click.prevent="logout" class="admin-logout">Выход</a>
@@ -88,16 +94,19 @@ const logout = () => {
   padding: 20px 20px 0 0
 .user-img
   display: block
+  width: 2.5em
+  color: $white
   padding: .25rem
   border: 1.5px solid $white
-  border-radius: 25%
+  border-radius: 50%
   transition: .5s
   margin-bottom: 10px
   margin-right: .33em
   &:hover, &:active, &:focus
     transform: scale(1.125)
     cursor: pointer
-    border-color: $border_dialog
+    color: $table_caption
+    background: $accent
 .exit-wrapper
   display: flex
   flex-wrap: wrap 

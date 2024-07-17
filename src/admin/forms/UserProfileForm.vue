@@ -9,7 +9,7 @@ const userFormVisible = defineModel();
 </script>
 
 <template>
-  <el-dialog v-model="userFormVisible">
+  <el-dialog v-model="userFormVisible" >
     <el-form
       :model="addProfileForm"
       @submit.prevent="onSubmitProfile"

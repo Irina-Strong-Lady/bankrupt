@@ -20,7 +20,7 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
     .catch(function(error) {
       if (error.response) {
         console.log(response.data)
-        console.log(response.staus)
+        console.log(response.status)
         console.log(response.headers)
       } else if (error.request) {
        console.log(error.request) 
@@ -51,7 +51,7 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
         .catch(function(error) {
           if (error.response) {
             console.log(response.data)
-            console.log(response.staus)
+            console.log(response.status)
             console.log(response.headers)
           } else if (error.request) {
           console.log(error.request) 
@@ -85,7 +85,7 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
         .catch(function(error) {
           if (error.response) {
             console.log(response.data)
-            console.log(response.staus)
+            console.log(response.status)
             console.log(response.headers)
           } else if (error.request) {
           console.log(error.request) 
@@ -120,7 +120,7 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
         .catch(function(error) {
           if (error.response) {
             console.log(response.data)
-            console.log(response.staus)
+            console.log(response.status)
             console.log(response.headers)
           } else if (error.request) {
           console.log(error.request) 

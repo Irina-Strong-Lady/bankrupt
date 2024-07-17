@@ -2,6 +2,9 @@
 import { computed, ref, onBeforeMount } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { useClaimDataStore } from '@/stores/claimData'
+import { getTokenData } from '@/composable'
+
+const userData = getTokenData()
 
 const claimDataStore = useClaimDataStore()
 
@@ -24,10 +27,12 @@ const changeSwitchArchive = () => claimDataStore.switchArchive = !claimDataStore
 const filterArchiveData = () => { 
   if (claimDataStore.switchArchive) {
     claimDataStore.archiveArray = claimDataStore?.claim?.filter(
-    (data) => data.archive === true)
+    (data) => data.executor_id == userData.confirm && data.archive === true || 
+              userData.admin && data.archive === true)
   } else {
     claimDataStore.archiveArray = claimDataStore?.claim?.filter(
-    (data) => data.archive === false)
+    (data) => data.executor_id == userData.confirm && data.archive === false || 
+              userData.admin && data.archive === false)
   } return claimDataStore.archiveArray
 }
 
@@ -40,13 +45,13 @@ const filterTableData = computed(() =>
 
 const tableSize = () => width.value > 767 ? 'large' : 'small'
 
-const switchSize = () => width.value > 300 ? '100' : '75'
+const switchSize = () => width.value > 767 ? '85' : '77.5'
 
 const currentPage = ref(1)
 
-const handleCurrentChange = (val) => currentPage.value = val
-
 const pageSize = ref(4)
+
+const handleCurrentChange = (val) => currentPage.value = val
 
 const totalData = computed(() => 
   filterTableData.value.slice(pageSize.value * currentPage.value - 
@@ -131,13 +136,23 @@ const deleteDialog = ref(false);
     <el-table-column label="Дата и время" prop="timestamp" width="auto" resizeable show-overflow-tooltip />
     <el-table-column label="Содержание обращения" prop="fabula" width="auto" resizeable>
       <template v-slot="scope">
-        <el-input 
-          v-model="scope.row.fabula"
-          :disabled="!claimDataStore.selectedItems.includes(scope.row.id) || 
-            claimDataStore.switchArchive"
-          type="textarea" 
-          resizeable
-        ></el-input>
+        <el-popover
+          placement="top-start"
+          :title="`Клиент: ${scope.row.visitor_name}`"
+          :width="200"
+          :trigger="claimDataStore.selectedItems.length == 0 ? 'hover' : ''"
+          :content="`Телефон: ${scope.row.visitor_phone}`"
+        >
+          <template #reference>
+            <el-input 
+              v-model="scope.row.fabula"
+              :disabled="!claimDataStore.selectedItems.includes(scope.row.id) || 
+                claimDataStore.switchArchive"
+              type="textarea" 
+              resizeable
+            ></el-input>
+          </template>
+        </el-popover>
       </template>
     </el-table-column>
     <el-table-column label="Исполнитель" width="auto" resizeable>
@@ -146,7 +161,7 @@ const deleteDialog = ref(false);
           v-model="scope.row.user.name" 
           :placeholder="scope.row.executor"
           :disabled="!claimDataStore.selectedItems.includes(scope.row.id) || 
-            claimDataStore.switchArchive"
+            claimDataStore.switchArchive || !userData.admin"
           filterable
           allow-create
         >
@@ -155,6 +170,7 @@ const deleteDialog = ref(false);
             :key="item.id" 
             :value="item.name"
             @click="claimDataStore.getUserId(scope.row.question_id, item.id)"
+            class="option"
           />
         </el-select>
       </template>
@@ -235,6 +251,8 @@ const deleteDialog = ref(false);
   color: $white
   @media screen and (max-width: 767px)
     font-size: 14px  
+.option
+  background: $white
 .pagination
   display: flex
   flex-wrap: wrap
