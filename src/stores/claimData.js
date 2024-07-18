@@ -33,8 +33,12 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
       }
     )
       claim.value = data?.data?.response
-      // claim.value.forEach(el => el['user'] = perms.data.response) 
-  }
+      claim.value.forEach((el) => { 
+        let toRussia = toRussianDate(el.timestamp); 
+        el.timestamp = toRussia
+        }
+      )
+    }
 
   const getUserId = (question, id) => {
     userId.value[question] = {id: id}
@@ -149,6 +153,19 @@ export const useClaimDataStore = defineStore('claimDataStore', () => {
     } else {
       selectedItems.value.splice(selectedItems.value.indexOf(id), 1)
     }
+  }
+
+  const toRussianDate = (timestamp) => {
+    let options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      timezone: 'UTC'
+    }; 
+    return new Date(Date.parse(timestamp)).toLocaleString("ru", options)
   }
 
   setInterval(() => { selectedItems.value.length == 0 ? claimDataResponse() : console.log('Table update is off')}, 10000)

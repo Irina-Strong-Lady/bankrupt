@@ -48,7 +48,7 @@ const props = defineProps({
   padding: 30px 0 
   @media screen and (max-width: 150px) 
     display: none
-ul li
+ul
   background: url('@/assets/img/svg/ellipse-sm.svg') no-repeat left top .5rem
   padding-left: 45px
   list-style: none
@@ -63,13 +63,13 @@ h1, h3
 h1  
   font-size: 20px
   font-weight: 600
-  margin-bottom: 10px
   &:last-child
     display: none
   @media screen and (max-width: 200px)
     font-size: 14px
 h3 
   font-size: 18px
+  margin-bottom: 1em
   @media screen and (max-width: 200px)
     font-size: 12px  
 </style>

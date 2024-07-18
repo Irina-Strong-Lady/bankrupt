@@ -37,7 +37,12 @@ const router = createRouter({
       path: '/profiles',
       name: 'profiles',
       component: () => import('../admin/pages/UserProfile.vue')
-    }    
+    },   
+    {
+      path: '/confidentials',
+      name: 'confidentials',
+      component: () => import('../pages/ConfidentialLayout.vue')
+    }   
   ]
 })
 

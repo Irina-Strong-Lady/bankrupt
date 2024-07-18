@@ -132,16 +132,16 @@ const deleteDialog = ref(false);
           ></el-checkbox>
       </template>
     </el-table-column>
-    <el-table-column label="Номер" prop="id" width="auto" resizeable />
-    <el-table-column label="Дата и время" prop="timestamp" width="auto" resizeable show-overflow-tooltip />
+    <el-table-column label="Номер обращения" prop="id" width="auto" resizeable />
+    <el-table-column label="Дата и время поступления" prop="timestamp" width="auto" resizeable show-overflow-tooltip />
     <el-table-column label="Содержание обращения" prop="fabula" width="auto" resizeable>
       <template v-slot="scope">
         <el-popover
           placement="top-start"
-          :title="`Клиент: ${scope.row.visitor_name}`"
+          :title="`Клиент: ${scope.row.visitor.name}`"
           :width="200"
-          :trigger="claimDataStore.selectedItems.length == 0 ? 'hover' : ''"
-          :content="`Телефон: ${scope.row.visitor_phone}`"
+          :trigger="claimDataStore.selectedItems.includes(scope.row.id) ? '' : 'hover'"
+          :content="`Телефон: ${scope.row.visitor.phone} Email: ${scope.row.visitor.email}`"
         >
           <template #reference>
             <el-input 

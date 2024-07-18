@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
+import router from '@/router'
 import { onSubmitVisitor, addQuestionForm } from '../composable'
 import { vMaska } from 'maska'
 
@@ -105,8 +106,8 @@ const isValidText = computed(() => {
                   style="color: #362E2E; cursor: default"
                   >{{ titleContact[1] }}
                 </a>
-                <a 
-                  :href="!checked ? 'https://sabe.io/blog/disable-html-anchor' : '#!'"
+                <a
+                  @click.prevent="!checked ? router.push({name: 'confidentials'}) : router.push({name: 'cotacts'})"
                   :style="checked ? 'cursor: not-allowed; color: #362E2E' : 'cursor: pointer; color: #409eff'"
                   style="text-decoration: underline"
                   >{{ titleContact[2] }}
@@ -228,7 +229,7 @@ const isValidText = computed(() => {
 .valid, .valid-textarea
   --el-input-bg-color: url()
   --el-input-text-color: #409eff
-  background: url('/src/assets/img/png/check-mark-icon.png') no-repeat // background: url('/src/assets/img/svg/ok-icon.svg') no-repeat
+  background: url('/src/assets/img/png/check-mark-icon.png') no-repeat
   background-size: 15px
   height: fit-content
   @media screen and (max-width: 320px)

@@ -4,7 +4,6 @@ import router from './router'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'
-import vScroll from './directives/vScroll'
 import { MotionPlugin } from '@vueuse/motion'
 import './assets/styles/main.sass'
 import 'element-plus/dist/index.css'
@@ -17,6 +16,5 @@ app.use(ElementPlus)
 app.use(MotionPlugin)
 app.use(createPinia())
 app.use(router)
-app.directive('scroll', vScroll)
 
 app.mount('#app')

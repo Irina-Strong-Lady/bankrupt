@@ -1,16 +1,15 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import axios from 'axios'
 import { defineStore } from 'pinia'
 import { pathURL, secretPhrase } from '../constants'
-import { elMessage, isValidToken } from '@/composable'
+import { elMessage, isValidToken, getTokenData } from '@/composable'
 import { useClaimDataStore } from '@/stores/claimData'
 
-
 export const useProfileStore = defineStore('profile', () => {
-  const userIdx = ref()
   const deleteId = ref()
   const deleteIdx = ref()
   const token = isValidToken()
+  const userData = getTokenData()
   let warning
   let message
 
@@ -18,8 +17,8 @@ export const useProfileStore = defineStore('profile', () => {
   const localStorageClaim = JSON.parse(localStorage.getItem('claim'))?._value
   const stateClaim = claimDataStore.claim
   const usersArray = localStorageClaim != undefined && stateClaim[0]?.user ? stateClaim[0]?.user : localStorageClaim[0]?.user
-  const setIdx = (el) => { return el.admin == true }
-  userIdx.value = usersArray.findIndex(setIdx)
+  const setIdx = (el) => { return el.id == userData.confirm }
+  const userIdx = usersArray.findIndex(setIdx)
 
   const updateRole = async (idx, id) => { 
     let role = false
