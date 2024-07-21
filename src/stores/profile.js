@@ -8,17 +8,31 @@ import { useClaimDataStore } from '@/stores/claimData'
 export const useProfileStore = defineStore('profile', () => {
   const deleteId = ref()
   const deleteIdx = ref()
+  const usersArray = ref([])
+  const currentUserArray = ref([])
   const token = isValidToken()
   const userData = getTokenData()
   let warning
   let message
 
+  currentUserArray.value.push(userData)
   const claimDataStore = useClaimDataStore() 
-  const localStorageClaim = JSON.parse(localStorage.getItem('claim'))?._value
   const stateClaim = claimDataStore.claim
-  const usersArray = localStorageClaim != undefined && stateClaim[0]?.user ? stateClaim[0]?.user : localStorageClaim[0]?.user
-  const setIdx = (el) => { return el.id == userData.confirm }
-  const userIdx = usersArray.findIndex(setIdx)
+  const localStorageClaim = JSON.parse(localStorage.getItem('claim'))?._value
+  const selectArray = () => { if (stateClaim.length == 0 && localStorageClaim[0] != undefined) {
+       return localStorageClaim[0].user
+    } else if (stateClaim.length != 0 && localStorageClaim.length == 0) {
+      return stateClaim[0].user
+    } else {
+      return currentUserArray.value
+  }}
+
+  usersArray.value = selectArray()
+  
+  const setIdx = (el) => { return el.id ? 
+                                  el.id : 
+                                  userData.confirm }
+  const userIdx = usersArray.value.findIndex(setIdx)
 
   const updateRole = async (idx, id) => { 
     let role = false
@@ -52,7 +66,7 @@ export const useProfileStore = defineStore('profile', () => {
   }
   
   const deleteUser = async (id, idx) => {
-    if (usersArray[idx]?.admin == true && usersArray.filter((el) => el.admin == true).length == 1) {
+    if (usersArray.value[idx]?.admin == true && usersArray.value.filter((el) => el.admin == true).length == 1) {
       warning = 'warning'
       message = 'Назначьте нового администратора перед удалением этого аккаунта'
       elMessage(warning, message)
