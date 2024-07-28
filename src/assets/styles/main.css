@@ -4,7 +4,7 @@
   font-family: "Advent Pro";
   font-style: normal;
   font-weight: 300;
-  src: url("../fonts/advent-pro-v23-cyrillic-300.woff2") format("woff2");
+  src: url("@/assets/fonts/advent-pro-v23-cyrillic-300.woff2") format("woff2");
 }
 /* advent-pro-regular - cyrillic */
 @font-face {
@@ -12,7 +12,7 @@
   font-family: "Advent Pro";
   font-style: normal;
   font-weight: 400;
-  src: url("../fonts/advent-pro-v23-cyrillic-regular.woff2") format("woff2");
+  src: url("@/assets/fonts/advent-pro-v23-cyrillic-regular.woff2") format("woff2");
 }
 /* advent-pro-500 - cyrillic */
 @font-face {
@@ -20,7 +20,7 @@
   font-family: "Advent Pro";
   font-style: normal;
   font-weight: 500;
-  src: url("../fonts/advent-pro-v23-cyrillic-500.woff2") format("woff2");
+  src: url("@/assets/fonts/advent-pro-v23-cyrillic-500.woff2") format("woff2");
 }
 /* advent-pro-600 - cyrillic */
 @font-face {
@@ -28,7 +28,7 @@
   font-family: "Advent Pro";
   font-style: normal;
   font-weight: 600;
-  src: url("../fonts/advent-pro-v23-cyrillic-600.woff2") format("woff2");
+  src: url("@/assets/fonts/advent-pro-v23-cyrillic-600.woff2") format("woff2");
 }
 /* advent-pro-700 - cyrillic */
 @font-face {
@@ -36,7 +36,7 @@
   font-family: "Advent Pro";
   font-style: normal;
   font-weight: 700;
-  src: url("../fonts/advent-pro-v23-cyrillic-700.woff2") format("woff2");
+  src: url("@/assets/fonts/advent-pro-v23-cyrillic-700.woff2") format("woff2");
 }
 * {
   box-sizing: border-box;
@@ -75,4 +75,98 @@ time, mark, audio, video {
 
 a {
   color: inherit;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+  --swiper-theme-color: #02F0FF;
+  --swiper-scrollbar-drag-bg-color: #02F0FF;
+  background: #EAE2E2;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-button-next, .swiper-rtl .swiper-button-prev {
+  display: none;
+}
+@media screen and (min-width: 1650px) {
+  .swiper-button-next, .swiper-rtl .swiper-button-prev {
+    display: inline-block;
+    right: calc(var(--swiper-navigation-size) / 44 * 176);
+    color: #02F0FF;
+  }
+}
+
+.swiper-button-prev, .swiper-rtl .swiper-button-next {
+  display: none;
+}
+@media screen and (min-width: 1650px) {
+  .swiper-button-prev, .swiper-rtl .swiper-button-next {
+    display: inline-block;
+    left: calc(var(--swiper-navigation-size) / 44 * 176);
+    color: #02F0FF;
+  }
+}
+
+div.swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
+  display: none;
+  width: 20px;
+  height: 20px;
+  margin-right: 3vh;
+  margin-bottom: 7vh;
+  background: transcend;
+  border-radius: 25%;
+  border: 4px solid #02F0FF;
+}
+div.swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet:last-child {
+  margin-right: 0;
+}
+@media screen and (max-width: 1650px) {
+  div.swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
+    display: inline-block;
+  }
+}
+
+.swiper-cube-shadow {
+  display: none;
+}
+
+.el-button {
+  justify-content: left;
+  animation-duration: 3s;
+  padding: 25px 65px;
+  background: rgba(105, 123, 124, 0.69);
+  transition: 0.5s;
+  border-radius: 2.5px;
+  border: none;
+}
+.el-button:hover, .el-button:focus, .el-button:active {
+  opacity: 0.85;
+  transform: scale(1.025);
+  transition: 0.5s;
+  cursor: default;
+}
+@media screen and (max-width: 767px) {
+  .el-button {
+    padding: 20px 45px;
+  }
+}
+
+.el-button > span {
+  color: #02F0FF;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  cursor: default;
+}
+@media screen and (max-width: 767px) {
+  .el-button > span {
+    font-size: 20px;
+  }
 }/*# sourceMappingURL=main.css.map */
